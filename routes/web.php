@@ -15,15 +15,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () { return view('welcome'); })->name('home');
 
-Route::group(['prefix' => 'dashboard'], function () {
-	Route::resource('pharmacies', 'Dashboard\PharmacyController');
-	Route::resource('doctors', 'Dashboard\DoctorController');
-	Route::resource('users', 'Dashboard\UserController');
-	Route::resource('addresses', 'Dashboard\AddressController');
-	Route::resource('medicines', 'Dashboard\MedicineController');
-	Route::resource('areas', 'Dashboard\AreaController');
-	Route::resource('orders', 'Dashboard\OrderController');
-	Route::get('revenues', 'Dashboard\RevenueController@index')->name('revenue');
+Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
+	Route::resource('pharmacies', 'PharmacyController');
+	Route::resource('doctors', 'DoctorController');
+	Route::resource('users', 'UserController');
+	Route::resource('addresses', 'AddressController');
+	Route::resource('medicines', 'MedicineController');
+	Route::resource('areas', 'AreaController');
+	Route::resource('orders', 'OrderController');
+	Route::get('revenues', 'RevenueController@index')->name('revenue');
 });
 
 Auth::routes([

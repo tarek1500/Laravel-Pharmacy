@@ -18,8 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 	return $request->user();
 });
 
-Route::get('login', 'API\AuthController@login')->name('api.login');
-Route::get('register', 'API\AuthController@register')->name('api.register');
-Route::put('users/profile', 'API\UserController@update')->name('api.users.profile');
-Route::resource('addresses', 'API\AddressController');
-Route::resource('orders', 'API\OrderController')->only(['index', 'store', 'show', 'update']);
+Route::group(['namespace' => 'API', 'as' => 'api.'], function () {
+	Route::get('login', 'AuthController@login')->name('login');
+	Route::get('register', 'AuthController@register')->name('register');
+	Route::put('users/profile', 'UserController@update')->name('users.profile');
+	Route::resource('addresses', 'AddressController');
+	Route::resource('orders', 'OrderController')->only(['index', 'store', 'show', 'update']);
+});
