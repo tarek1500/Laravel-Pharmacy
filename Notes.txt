@@ -1,0 +1,73 @@
+Pharmacies
+Orders
+Doctors
+Users
+Areas
+Addresses
+Medicines
+Revenue (No CRUD)
+--------------------------------------------------
+Search:
+Seeds
+File Storage
+Authorization
+Guards
+Create admin through console command
+Soft delete
+Mutators
+Email verification
+Notifications (Using email)
+Queue
+Task Scheduling
+Verification routing
+Forgot password
+Stripe API (Visa)
+--------------------------------------------------
+Others:
+1- Also any other routes like attend or edit profile must be verified
+2- Doctor: All this role does is just modify the flow of order (Doctor can update any state to any?!)
+--------------------------------------------------
+User:
+	Update Profile
+	Show Order
+	Create Order
+	Update Order
+	CRUD Addresses
+
+Doctor:
+	Create Order
+	Update Order (Status)
+	Create Medicine
+
+Pharmacy:
+	(Like Doctor)
+	CRUD Doctor
+	Update Pharmacy Info
+--------------------------------------------------
+TODO:
+Template (Blade (extends))
+Migrations
+	Models
+	Seeders
+	Resources
+	Validations
+End-points
+Controllers
+
+Authorization (Gates, Policies)
+Task Scheduling
+Stripe API (Visa)
+--------------------------------------------------
+Tables:
+admins
+pharmacies
+doctors
+users
+roles
+areas
+addresses
+orders
+
+TAKE CARE OF Naming Convention !!!!!!
+TAKE CARE OF Naming Convention !!!!!!
+TAKE CARE OF Naming Convention !!!!!!
