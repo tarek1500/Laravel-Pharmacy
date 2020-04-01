@@ -14,7 +14,7 @@ class PharmacyController extends Controller
      */
     public function index()
     {
-        //
+        return view('pharmacies');
     }
 
     /**

@@ -1,7 +1,7 @@
+@extends('app')
+@section('title', 'Doctors')
 
-@extends('layouts.app')
 @section('content')
-
 <table class="table table-striped">
     <thead>
       <tr>
@@ -47,6 +47,4 @@
 
     </tbody>
   </table>
-
-
-  @endsection
+@endsection
