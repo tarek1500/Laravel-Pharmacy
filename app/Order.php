@@ -16,4 +16,13 @@ class Order extends Model
         'creator_type',
         'total_price'
     ];
+
+   
+     // The orders that contain the medicine.
+
+     public function medicines()
+     {   //many to many
+
+         return $this->belongsToMany(Medicine::class,'medicine_orders');
+     }
 }
