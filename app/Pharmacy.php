@@ -19,11 +19,11 @@ class Pharmacy extends Model
         'password',
     ];
 
-    // is commented until Area model is maked
-    /* public function area()
+    
+     public function area()
     {
          return $this->belongsTo('App\Area');
-    } */
+    } 
 
       
     // The medicines that belong to the pharmacy.
