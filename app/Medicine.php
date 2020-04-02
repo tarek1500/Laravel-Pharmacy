@@ -19,7 +19,6 @@ class Medicine extends Model
         return $this->belongsToMany(Pharmacy::class,'medicine_pharmacies');
     }
     
-    /* is commented until Order model is maked
 
      // The orders that contain the medicine.
 
@@ -28,5 +27,5 @@ class Medicine extends Model
 
          return $this->belongsToMany(Order::class,'medicine_orders');
      }
-     */
+     
 }
