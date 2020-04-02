@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () { return view('welcome'); })->name('home');
 
 Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
+	Route::get('/', function () { return view('index'); })->name('index');
 	Route::resource('pharmacies', 'PharmacyController');
 	Route::resource('doctors', 'DoctorController');
 	Route::resource('users', 'UserController');
@@ -23,7 +24,7 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
 	Route::resource('medicines', 'MedicineController');
 	Route::resource('areas', 'AreaController');
 	Route::resource('orders', 'OrderController');
-	Route::get('revenues', 'RevenueController@index')->name('revenue');
+	Route::get('revenues', 'RevenueController@index')->name('revenue.index');
 });
 
 Auth::routes([

@@ -1,6 +1,7 @@
-@extends('layouts.app')
-@section('content')
+@extends('app')
+@section('title', 'Pharmacies')
 
+@section('content')
 <div class="row mb-2">
     <div class="col-sm-6">
       <h1 class="m-0 text-dark">Dashboard</h1>
@@ -12,8 +13,6 @@
       </ol>
     </div><!-- /.col -->
   </div>
-
-
 
   <section class="content">
     <div class="container-fluid">
@@ -83,5 +82,4 @@
 
     </div><!-- /.container-fluid -->
   </section>
-
 @endsection

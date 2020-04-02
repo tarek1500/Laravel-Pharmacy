@@ -14,6 +14,6 @@ class RevenueController extends Controller
      */
     public function index()
     {
-        //
+        return view('revenues');
     }
 }
