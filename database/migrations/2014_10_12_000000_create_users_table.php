@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->text('avatar_img');
             $table->text('mobile_number');
             $table->unsignedBigInteger('national_id')->unique();
-            $table->timestamp('last_login_date');
+            $table->timestamp('last_login_date')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
