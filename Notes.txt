@@ -71,3 +71,36 @@ orders
 TAKE CARE OF Naming Convention !!!!!!
 TAKE CARE OF Naming Convention !!!!!!
 TAKE CARE OF Naming Convention !!!!!!
+
+
+order:
+++ creator id
+
+
+creator id     1   => name  
+type         doctor
+				
+					
+					2		=> name=null 
+				pharmacy
+				admin
+
+
+
+sarah
+doctors
+admin
+pharamcy
+medicine
+medicine pharmacy
+medicine order
+
+
+mohamed //doctor // pharamcy //
+users --
+orders ---
+address --
+areas --
+status --
+preciprtions --
+
