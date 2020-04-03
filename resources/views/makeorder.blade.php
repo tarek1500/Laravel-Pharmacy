@@ -36,6 +36,11 @@
     <input type="email" class="form-control mb-4" id="exampleFormControlInput1>
   </div>
 
+  <div class="form-group px-5">
+    <label for="exampleFormControlInput1">Visa Card Number</label>
+    <input type="email" class="form-control mb-4" id="exampleFormControlInput1>
+  </div>
+
   <div class="form-group">
     <button type="submit" class="btn btn-success ">Order</button>
   </div>
