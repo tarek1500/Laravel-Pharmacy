@@ -31,4 +31,4 @@ Auth::routes([
 	'register' => false
 ]);
 
-// Route::get('/test' , 'test@index');
+Route::get('/test' , 'test@index');

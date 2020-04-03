@@ -41,7 +41,7 @@
         </li>
 
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="/"><img style="width: 50px;" src="./images/logo.png"> </a>
+          <a href="/"><img style="width: 50px;" src="/images/logo.png"> </a>
          </li>
 
          <li class="nav-item d-none d-sm-inline-block">

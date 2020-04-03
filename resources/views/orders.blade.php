@@ -32,9 +32,9 @@
         <td>yes</td>
         <td>confirmed</td>
 
-        <td> <a href="" class="btn btn-success " ><i class="fas fa-check-square"></i></a> </td>
-        <td> <a href="" class="btn btn-primary" ><i class="fas fa-edit"></i></a> </td>
-        <td> <a href="" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a></td>
+        <td> <span title = "Confirm Order"> <a href="" class="btn btn-success " ><i class="fas fa-check-square"></i></a> </span></td>
+        <td> <span title = "Edit Order"> <a href="" class="btn btn-primary" ><i class="fas fa-edit"></i></a> </span></td>
+        <td> <span title = "Delete Order"> <a href="" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a> </span> </td>
 
       </tr>
 
@@ -48,9 +48,9 @@
         <td>yes</td>
         <td>confirmed</td>
 
-        <td> <a href="" class="btn btn-success " ><i class="fas fa-check-square"></i></a> </td>
-        <td> <a href="" class="btn btn-primary" ><i class="fas fa-edit"></i></a> </td>
-        <td> <a href="" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a></td>
+        <td> <span title = "Delete Order"> <a href="" class="btn btn-success " ><i class="fas fa-check-square"></i></a></span> </td>
+        <td> <span title = "Delete Order"> <a href="" class="btn btn-primary" ><i class="fas fa-edit"></i></a></span> </td>
+        <td> <span title = "Delete Order"> <a href="" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a></span></td>
 
       </tr>
 
@@ -63,15 +63,12 @@
         <td>yes</td>
         <td>confirmed</td>
 
-        <td> <a href="" class="btn btn-success " ><i class="fas fa-check-square"></i></a> </td>
-        <td> <a href="" class="btn btn-primary" ><i class="fas fa-edit"></i></a> </td>
-        <td> <a href="" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a></td>
-
+        <td> <span title = "Delete Order"> <a href="" class="btn btn-success " ><i class="fas fa-check-square"></i></a></span> </td>
+        <td> <span title = "Delete Order"> <a href="" class="btn btn-primary" ><i class="fas fa-edit"></i></a> </span></td>
+        <td> <span title = "Delete Order"> <a href="" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a></span></td>
       </tr>
 
     </tbody>
   </table>
-
-
 
 @endsection

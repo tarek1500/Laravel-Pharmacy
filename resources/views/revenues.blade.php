@@ -17,11 +17,11 @@
       <th scope="col">PharmacyName</th>
       <th scope="col">TotalOrders</th>
       <th scope="col">TotalRevenue</th>
-      <td> <img src="/images/logo.png" width="50px" alt=""></td>
     </tr>
   </thead>
   <tbody>
     <tr>
+      <td> <img width="40px" src="/images/logo.png" alt=""></td>
       <td>Elazaby</td>
       <td>50</td>
       <td>2000$</td>
