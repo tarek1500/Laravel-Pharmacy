@@ -52,6 +52,14 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+        'pharmacy.auth' => \App\Http\Middleware\RedirectIfNotPharmacy::class,
+        'pharmacy.guest' => \App\Http\Middleware\RedirectIfPharmacy::class,
+        // 'pharmacy.verified' => \App\Http\Middleware\EnsurePharmacyEmailIsVerified::class,
+        // 'pharmacy.password.confirm' => \App\Http\Middleware\RequirePharmacyPassword::class,
+        'doctor.auth' => \App\Http\Middleware\RedirectIfNotDoctor::class,
+        'doctor.guest' => \App\Http\Middleware\RedirectIfDoctor::class,
+        // 'doctor.verified' => \App\Http\Middleware\EnsureDoctorEmailIsVerified::class,
+        // 'doctor.password.confirm' => \App\Http\Middleware\RequireDoctorPassword::class,
         'admin.auth' => \App\Http\Middleware\RedirectIfNotAdmin::class,
         'admin.guest' => \App\Http\Middleware\RedirectIfAdmin::class,
         // 'admin.verified' => \App\Http\Middleware\EnsureAdminEmailIsVerified::class,

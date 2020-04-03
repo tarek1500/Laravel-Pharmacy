@@ -46,6 +46,10 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapPharmacyRoutes();
+
+        $this->mapDoctorRoutes();
+
         $this->mapAdminRoutes();
 
         //
@@ -86,6 +90,22 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('web')
              ->namespace($this->namespace)
              ->group(base_path('routes/admin.php'));
+    }
+
+    protected function mapDoctorRoutes()
+    {
+        Route::prefix('doctor')
+             ->middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/doctor.php'));
+    }
+
+    protected function mapPharmacyRoutes()
+    {
+        Route::prefix('pharmacy')
+             ->middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/pharmacy.php'));
     }
 
 }
