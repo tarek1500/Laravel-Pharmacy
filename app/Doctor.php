@@ -6,11 +6,12 @@ use App\Notifications\Doctor\Auth\ResetPassword;
 use App\Notifications\Doctor\Auth\VerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class Doctor extends Authenticatable
 {
     use Notifiable;
-
+    use HasRoles;
     /**
      * The attributes that are mass assignable.
      *
