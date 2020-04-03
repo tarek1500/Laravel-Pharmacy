@@ -36,6 +36,16 @@ return [
     */
 
     'guards' => [
+        'pharmacy' => [
+            'driver' => 'session',
+            'provider' => 'pharmacies',
+        ],
+
+        'doctor' => [
+            'driver' => 'session',
+            'provider' => 'doctors',
+        ],
+
         'admin' => [
             'driver' => 'session',
             'provider' => 'admins',
@@ -71,6 +81,16 @@ return [
     */
 
     'providers' => [
+        'pharmacies' => [
+            'driver' => 'eloquent',
+            'model' => App\Pharmacy::class,
+        ],
+
+        'doctors' => [
+            'driver' => 'eloquent',
+            'model' => App\Doctor::class,
+        ],
+
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\Admin::class,
@@ -103,6 +123,20 @@ return [
     */
 
     'passwords' => [
+        'pharmacies' => [
+            'provider' => 'pharmacies',
+            'table' => 'pharmacy_password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'doctors' => [
+            'provider' => 'doctors',
+            'table' => 'doctor_password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
         'admins' => [
             'provider' => 'admins',
             'table' => 'admin_password_resets',

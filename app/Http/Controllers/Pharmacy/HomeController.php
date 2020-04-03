@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Pharmacy;
 
 use App\Http\Controllers\Controller;
 
@@ -13,11 +13,11 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('admin.auth:admin');
+        $this->middleware('pharmacy.auth:pharmacy');
     }
 
     /**
-     * Show the Admin dashboard.
+     * Show the Pharmacy dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */

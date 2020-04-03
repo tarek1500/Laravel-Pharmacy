@@ -2,10 +2,20 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Notifications\Pharmacy\Auth\ResetPassword;
+use App\Notifications\Pharmacy\Auth\VerifyEmail;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Pharmacy extends Model
+class Pharmacy extends Authenticatable
 {
+    use Notifiable;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'email',
@@ -15,12 +25,27 @@ class Pharmacy extends Model
         'priority',
         'area_id',
     ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
     protected $hidden = [
-        'password',
+        'password', 'remember_token',
     ];
 
-    
-     public function area()
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+
+    public function area()
     {
          return $this->belongsTo('App\Area');
     } 
@@ -33,5 +58,24 @@ class Pharmacy extends Model
         return $this->belongsToMany(Medicine::class,'medicine_pharmacies');
     }
 
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPassword($token));
+    }
 
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail);
+    }
 }

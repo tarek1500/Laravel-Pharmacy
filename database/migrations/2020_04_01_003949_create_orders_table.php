@@ -24,10 +24,8 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('order_user_id');
             $table->string('creator_type');
             $table->unsignedBigInteger('total_price');
-            $table->foreign('delivering_address_id')->references('id')->on('addresses');
-            $table->foreign('doctor_id')->references('id')->on('doctors');
+            $table->foreign('delivering_address_id')->references('id')->on('addresses'); 
             $table->foreign('status_id')->references('id')->on('statuses');
-            $table->foreign('pharamcy_id')->references('id')->on('pharamcies');
             $table->foreign('order_user_id')->references('id')->on('users');
         });
     }
