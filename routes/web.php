@@ -31,3 +31,5 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
 Auth::routes([
 	'register' => false
 ]);
+
+Route::get('/test' , 'test@index');
