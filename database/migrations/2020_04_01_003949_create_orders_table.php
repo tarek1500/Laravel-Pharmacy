@@ -19,12 +19,12 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('delivering_address_id');
             $table->unsignedBigInteger('doctor_id')->nullable();
             $table->boolean('is_insured');
-            $table->unsignedBigInteger('status_id');
+            $table->unsignedInteger('status_id');
             $table->unsignedBigInteger('pharamcy_id')->nullable();
             $table->unsignedBigInteger('order_user_id');
             $table->string('creator_type');
             $table->unsignedBigInteger('total_price');
-            $table->foreign('delivering_address_id')->references('id')->on('addresses'); 
+            $table->foreign('delivering_address_id')->references('id')->on('addresses');
             $table->foreign('status_id')->references('id')->on('statuses');
             $table->foreign('order_user_id')->references('id')->on('users');
         });
