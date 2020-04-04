@@ -2,7 +2,7 @@
 
 Route::group(['namespace' => 'Doctor'], function() {
     // Dashboard
-    Route::get('/', 'HomeController@index')->name('doctor.home');
+    Route::get('/', 'HomeController@index')->name('doctor.home')->middleware("doctor.auth");
 
     // Login
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('doctor.login');

@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 use App\Admin;
+use Illuminate\Support\Facades\Artisan;
+use Spatie\Permission\Models\Role;
 
 class CreateAdmins extends Command
 {
@@ -46,10 +48,19 @@ class CreateAdmins extends Command
      */
     public function handle()
     {   
-        Admin::create([
+
+        $roles = Role::all();
+        if($roles->isEmpty()){
+
+            Artisan::call("db:seed --class=RolesTableSeeder");
+
+         }
+        $admin=Admin::create([
             'email' => $this->option('email'), //$this->option('email')->the value inserted by user
             'password' =>Hash::make($this->option('password')),
         ]);
-
+        $admin->assignRole('admin','admin');
+        $admin->assignRole("pharmacy","admin");
+        $admin->assignRole("doctor","admin");    
     }
 }
