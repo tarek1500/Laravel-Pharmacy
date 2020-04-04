@@ -2,7 +2,7 @@
 
 Route::group(['namespace' => 'Pharmacy'], function() {
     // Dashboard
-    Route::get('/', 'HomeController@index')->name('pharmacy.home');
+    Route::get('/', 'HomeController@index')->name('pharmacy.home')->middleware("pharmacy.auth");
 
     // Login
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('pharmacy.login');
@@ -15,7 +15,7 @@ Route::group(['namespace' => 'Pharmacy'], function() {
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('pharmacy.password.email');
     Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('pharmacy.password.reset');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('pharmacy.password.update');
-
+    
     // Confirm Password
     Route::get('password/confirm', 'Auth\ConfirmPasswordController@showConfirmForm')->name('pharmacy.password.confirm');
     Route::post('password/confirm', 'Auth\ConfirmPasswordController@confirm');

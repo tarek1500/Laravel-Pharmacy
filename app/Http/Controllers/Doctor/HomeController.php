@@ -11,17 +11,14 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('doctor.auth:doctor');
-    }
-
-    /**
+    
+     /**
      * Show the Doctor dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
-        return view('index');
+        
+        return redirect()->route('dashboard.index');
     }
 }
