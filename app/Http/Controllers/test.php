@@ -7,6 +7,6 @@ use Illuminate\Http\Request;
 class test extends Controller
 {
     function index(){
-        return view('createnewpharmacy');
+        return view('makeorder');
     }
 }

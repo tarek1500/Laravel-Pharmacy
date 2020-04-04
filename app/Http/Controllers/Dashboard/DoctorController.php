@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Doctor;
+use App\Pharmacy;
 
 class DoctorController extends Controller
 {
@@ -14,7 +16,11 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        return view('doctors');
+        $doctors =  Doctor::all();
+
+        return view('doctors',[
+            "doctors" => $doctors
+        ]);
     }
 
     /**
@@ -24,7 +30,10 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        //
+        $pharmacies = Pharmacy::all();
+        return view('addnewdoctor',[
+            "pharmacies" => $pharmacies
+        ]);
     }
 
     /**
@@ -35,7 +44,17 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $this->validate($request , [
+            'name' => 'required|min:3',
+            'email'=> 'required'
+
+        ]);
+
+        dd($request->name);
+
+
+        // return view('doctors');
     }
 
     /**
