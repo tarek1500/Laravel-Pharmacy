@@ -17,6 +17,7 @@ class CreatePrescriptionsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('image');
+            $table->unsignedBigInteger('order_id');
         });
     }
 
