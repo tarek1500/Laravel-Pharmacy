@@ -21,10 +21,8 @@ class CreateDoctorsTable extends Migration
             $table->string('password');
             $table->unsignedBigInteger('national_id')->unique();
             $table->string('avatar_image')->default('default.jpg');
-            $table->boolean('is_baned');
+            $table->boolean('is_baned')->default(0);
             $table->unsignedInteger('pharmacy_id');
-
-            
         });
     }
 

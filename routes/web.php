@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,5 +32,7 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
 Auth::routes([
 	'register' => false
 ]);
+
+// Route::get('/dashboard/doctors/delete/{id}','DoctorController@destroy')->name('doctors.destroy');
 
 Route::get('/test' , 'test@index');

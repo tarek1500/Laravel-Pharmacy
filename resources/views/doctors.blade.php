@@ -22,8 +22,25 @@
                 <th scope="row">{{$doctor->id}}</th>
                 <td>{{$doctor->name}}</td>
                 <td>{{$doctor->pharmacy_id ? $doctor->Pharmacy->name : "NotExist" }}</td>
-                <td width="10%"> <a href="" class="btn btn-primary" ><i class="fas fa-edit"></i></a> </td>
-                <td width="10%"> <a href="" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a></td>
+
+
+                <td width="10%">
+                    <form method="get" action="{{route('dashboard.doctors.edit' , $doctor->id)}}">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-edit"></i></i></button>
+                    </form>
+                </td>
+
+
+                <td width="10%">
+                    <form method="post" action="{{route('dashboard.doctors.destroy' ,$doctor->id)}}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                    </form>
+                </td>
+
             </tr>
         @endforeach
 
