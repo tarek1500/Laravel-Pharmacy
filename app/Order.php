@@ -14,7 +14,16 @@ class Order extends Model
         'pharamcy_id',
         'order_user_id',
         'creator_type',
-        'total_price'
+        'total_price',
+    ];
+    static public $statuses =[
+        'New',
+        'Processing',
+        'WaitingForUserConfirmation',
+        'Canceled',
+        'Confirmed',
+        'Delivered'
+
     ];
 
    
