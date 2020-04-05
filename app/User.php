@@ -20,12 +20,22 @@ class User extends Authenticatable
         'email',
         'password',
         'gender',
-        'data_of_birth',
+        'date_of_birth',
         'avatar_img',
         'mobile_number',
         'national_id',
         'last_login_date'
     ];
+
+    public function addresses()
+    {
+        return $this->hasMany('App\Address');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Order','order_user_id');
+    }
 
     /**
      * The attributes that should be hidden for arrays.
