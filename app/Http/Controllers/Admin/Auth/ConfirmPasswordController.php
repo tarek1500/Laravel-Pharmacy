@@ -33,10 +33,6 @@ class ConfirmPasswordController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('admin.auth');
-    }
 
     /**
      * Display the password confirmation view.

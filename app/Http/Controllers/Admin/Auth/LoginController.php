@@ -30,16 +30,6 @@ class LoginController extends Controller
     protected $redirectTo = '/admin';
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('admin.guest:admin', ['except' => 'logout']);
-    }
-
-    /**
      * Get the guard to be used during authentication.
      *
      * @return \Illuminate\Contracts\Auth\StatefulGuard
@@ -69,9 +59,9 @@ class LoginController extends Controller
     {
 
         $this->guard()->logout();
-
+       
         $request->session()->invalidate();
 
-        return $this->loggedOut($request) ?: redirect()->route('admin.home');
+        return $this->loggedOut($request) ?: redirect()->route('admin.login');
     }
 }

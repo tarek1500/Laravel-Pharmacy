@@ -11,17 +11,13 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('pharmacy.auth:pharmacy');
-    }
-
+    
     /**
      * Show the Pharmacy dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
-        return view('index');
+        return redirect()->route('dashboard.index');
     }
 }

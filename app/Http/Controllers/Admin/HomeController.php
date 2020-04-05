@@ -11,17 +11,12 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('admin.auth:admin');
-    }
-
     /**
      * Show the Admin dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
-        return view('index');
+        return redirect()->route('dashboard.index');
     }
 }

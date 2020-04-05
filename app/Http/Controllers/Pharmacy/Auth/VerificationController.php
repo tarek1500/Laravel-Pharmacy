@@ -30,19 +30,6 @@ class VerificationController extends Controller
      * @var string
      */
     protected $redirectTo = '/pharmacy';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('pharmacy.auth');
-        $this->middleware('signed')->only('pharmacy.verify');
-        $this->middleware('throttle:6,1')->only('pharmacy.verify', 'resend');
-    }
-
     /**
      * Show the email verification notice.
      *

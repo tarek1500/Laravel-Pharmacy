@@ -29,16 +29,7 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/pharmacy';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('pharmacy.guest:pharmacy', ['except' => 'logout']);
-    }
-
+  
     /**
      * Get the guard to be used during authentication.
      *
