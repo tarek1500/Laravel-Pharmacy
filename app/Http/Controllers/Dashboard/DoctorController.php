@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Doctor;
+use App\Pharmacy;
+use Symfony\Component\Console\Input\Input;
 
 class DoctorController extends Controller
 {
@@ -14,7 +17,11 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        return view('doctors');
+        $doctors =  Doctor::all();
+
+        return view('doctors',[
+            "doctors" => $doctors
+        ]);
     }
 
     /**
@@ -24,7 +31,10 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        //
+        $pharmacies = Pharmacy::all();
+        return view('addnewdoctor',[
+            "pharmacies" => $pharmacies
+        ]);
     }
 
     /**
@@ -35,7 +45,32 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pharmacyName = $request->pharmacy_name;
+        $pharmacy = Pharmacy::where ('name',$pharmacyName)->get('id');
+        $pharmacyId = $pharmacy["0"]["id"];
+
+        $this->validate($request , [
+            'name' => 'required|min:3|unique:doctors',
+            'email'=> 'required|unique:doctors',
+            'password' => 'required | min:6',
+            'national_id' => 'required | min:14 | max:14 | unique:doctors',
+            'avatar_image' => 'required'
+        ]);
+
+        $doctorImage = $request->avatar_image;
+        $ImageName = time().$doctorImage->getClientOriginalName();
+        $doctorImage->move('/images/doctors' , $ImageName);
+
+        Doctor::create([
+            'name' => $request->name,
+            'email'=> $request->email,
+            'password' => $request->password,
+            'national_id' => $request->national_id,
+            'avatar_image' => 'images/doctors/'.$ImageName,
+            'pharmacy_id'=> $pharmacyId
+        ]);
+
+        return redirect('dashboard/doctors');
     }
 
     /**
@@ -57,7 +92,15 @@ class DoctorController extends Controller
      */
     public function edit($id)
     {
-        //
+
+        $doctor = Doctor::find($id);
+        $pharmacies = Pharmacy::all();
+
+
+        return view('editdoctor',[
+            "pharmacies" => $pharmacies,
+            "doctor" => $doctor
+        ]);
     }
 
     /**
@@ -69,8 +112,42 @@ class DoctorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+
+        $doctor = Doctor::find($id);
+        dd($doctor->avatar_image);
+
+        $pharmacyName = $request->pharmacy_name;
+        $pharmacy = Pharmacy::where ('name',$pharmacyName)->get('id');
+        $pharmacyId = $pharmacy["0"]["id"];
+
+        $this->validate($request , [
+            'name' => 'required|min:3',
+            'email'=> 'required',
+            'password' => 'required | min:6',
+            'national_id' => 'required | min:14 | max:14',
+            'avatar_image' => 'required'
+            ]);
+
+            $doctorImage = $doctor->avatar_image;
+
+
+
+            $ImageName = time().$doctorImage->getClientOriginalName();
+            $doctorImage->move('images/doctors' , $ImageName);
+
+
+            $doctor->update([
+                'name' => $request->name,
+                'email'=> $request->email,
+                'password' => $request->password,
+                'national_id' => $request->national_id,
+                'avatar_image' => 'images/doctors/'.$ImageName,
+                'pharmacy_id'=> $pharmacyId,
+                ]);
+
+                return redirect('dashboard/doctors');
+
+            }
 
     /**
      * Remove the specified resource from storage.
@@ -80,6 +157,9 @@ class DoctorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $doctor = Doctor::find($id);
+        $doctor->delete();
+        return redirect()->back();
     }
 }
+

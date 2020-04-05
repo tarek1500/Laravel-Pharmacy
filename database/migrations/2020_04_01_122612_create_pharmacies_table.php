@@ -15,7 +15,6 @@ class CreatePharmaciesTable extends Migration
     {
         Schema::create('pharmacies', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
@@ -23,6 +22,7 @@ class CreatePharmaciesTable extends Migration
             $table->string('avatar_image')->default('default.jpg');
             $table->unsignedBigInteger('priority');
             $table->unsignedBigInteger('area_id');
+            $table->timestamps();
 
         });
     }

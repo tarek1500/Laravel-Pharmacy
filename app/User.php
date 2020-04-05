@@ -5,10 +5,12 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -33,7 +35,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'avatar_img'
     ];
 
     /**
@@ -44,4 +46,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+	protected $appends = ['avatar'];
+
+	public function getAvatarAttribute()
+	{
+		$path = $this->avatar_img;
+
+		if (Storage::exists($path))
+			return 'data:' . Storage::mimeType($path) . ';base64,' . base64_encode(Storage::get($path));
+
+		return null;
+	}
 }

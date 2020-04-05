@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () { return view('welcome'); })->name('home');
 
-Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dashboard.' ,
- "middleware"=>["auth:pharmacy,admin,doctor","emails.verified"]], function () {
+Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dashboard.', "middleware"=>["auth:pharmacy,admin,doctor","emails.verified"]], function () {
 	Route::get('/', function () { return view('index'); })->name('index');
 	Route::resource('pharmacies', 'PharmacyController');
 	Route::resource('doctors', 'DoctorController');
@@ -28,8 +28,5 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
 	Route::get('revenues', 'RevenueController@index')->name('revenue.index');
 });
 
-Auth::routes([
-	'register' => false
-]);
-
-Route::get('/test' , 'test@index');
+Route::get('/test' , function () { return view('createnewpharmacy'); });
+// Route::get('/dashboard/doctors/delete/{id}','DoctorController@destroy')->name('doctors.destroy');
