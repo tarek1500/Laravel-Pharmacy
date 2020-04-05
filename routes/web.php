@@ -28,8 +28,4 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
 	Route::get('revenues', 'RevenueController@index')->name('revenue.index');
 });
 
-Auth::routes([
-	'register' => false
-]);
-
-Route::get('/test' , 'test@index');
+Route::get('/test' , function () { return view('createnewpharmacy'); });
