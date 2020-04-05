@@ -22,8 +22,10 @@ Route::group(['namespace' => 'API', 'as' => 'api.'], function () {
 	Route::post('login', 'AuthController@login')->name('login');
 	Route::post('register', 'AuthController@register')->name('register');
 
-	Route::get('profile', 'UserController@show')->name('users.profile.show');
-	Route::put('profile', 'UserController@update')->name('users.profile.update');
-	Route::resource('addresses', 'AddressController');
-	Route::resource('orders', 'OrderController')->only(['index', 'store', 'show', 'update']);
+	Route::group(['middleware' => 'auth:sanctum'], function () {
+		Route::get('profile', 'UserController@show')->name('users.profile.show');
+		Route::put('profile', 'UserController@update')->name('users.profile.update');
+		Route::resource('addresses', 'AddressController');
+		Route::resource('orders', 'OrderController')->only(['index', 'store', 'show', 'update']);
+	});
 });

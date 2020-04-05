@@ -15,16 +15,14 @@ class CreateAddressesTable extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->string('street_name');
             $table->unsignedInteger('building_number');
             $table->unsignedInteger('floor_number');
             $table->unsignedInteger('flat_number');
             $table->boolean('is_main');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('area_id');
-            $table->foreign('area_id')->references('id')->on('areas');
+            $table->timestamps();
         });
     }
 
