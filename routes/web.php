@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,4 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
 });
 
 Route::get('/test' , function () { return view('createnewpharmacy'); });
+// Route::get('/dashboard/doctors/delete/{id}','DoctorController@destroy')->name('doctors.destroy');

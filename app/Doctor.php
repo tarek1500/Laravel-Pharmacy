@@ -26,6 +26,7 @@ class Doctor extends Authenticatable implements MustVerifyEmail
         'avatar_image',
         'is_baned',
         'pharmacy_id',
+        
     ];
 
     /**
@@ -69,7 +70,7 @@ class Doctor extends Authenticatable implements MustVerifyEmail
 
      //function pharmacy represent one to many relation between pharmacy and doctors
      public function pharmacy()
-     {   
+     {
          return $this->belongsTo('App\Pharmacy');
      }
 }
