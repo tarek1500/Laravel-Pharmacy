@@ -4,11 +4,12 @@ namespace App;
 
 use App\Notifications\Pharmacy\Auth\ResetPassword;
 use App\Notifications\Pharmacy\Auth\VerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
-class Pharmacy extends Authenticatable
+class Pharmacy extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasRoles;
