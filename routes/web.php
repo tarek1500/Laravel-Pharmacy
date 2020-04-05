@@ -16,8 +16,7 @@ use App\Http\Controllers\Dashboard;
 
 Route::get('/', function () { return view('welcome'); })->name('home');
 
-Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dashboard.' ,
- "middleware"=>["auth:pharmacy,admin,doctor","emails.verified"]], function () {
+Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dashboard.', "middleware"=>["auth:pharmacy,admin,doctor","emails.verified"]], function () {
 	Route::get('/', function () { return view('index'); })->name('index');
 	Route::resource('pharmacies', 'PharmacyController');
 	Route::resource('doctors', 'DoctorController');
