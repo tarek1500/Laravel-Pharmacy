@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
+use App\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -16,5 +18,15 @@ class UserController extends Controller
     public function update(Request $request)
     {
         //
+    }
+
+     public function show(Request $request,$user)
+    {
+        
+        $user = User::find($user);
+        
+        if($user)
+            return new UserResource($user);
+        return ["error"=>"user not found"];
     }
 }

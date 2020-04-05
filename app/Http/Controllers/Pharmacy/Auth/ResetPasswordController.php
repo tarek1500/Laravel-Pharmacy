@@ -30,15 +30,7 @@ class ResetPasswordController extends Controller
      */
     protected $redirectTo = '/pharmacy';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('pharmacy.guest:pharmacy');
-    }
+  
 
     /**
      * Display the password reset view for the given token.
