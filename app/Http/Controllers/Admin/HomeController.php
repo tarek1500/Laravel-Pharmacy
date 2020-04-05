@@ -11,8 +11,6 @@ class HomeController extends Controller
      *
      * @return void
      */
-  
-
     /**
      * Show the Admin dashboard.
      *
