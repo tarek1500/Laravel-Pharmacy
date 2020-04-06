@@ -46,7 +46,6 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        dd(User::find(1)->orders);
         $order_params = $request->only([
             'order_user_id',
             'is_insured',
