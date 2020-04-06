@@ -5,7 +5,7 @@
 
 <h2>Create New Order</h2>
 <br>
-<form method="POST" action="{{route('orders.store')}}">
+<form method="POST" action="{{route('dashboard.orders.store')}}">
 @csrf
 <div class="form-group px-5">
     <label for="exampleFormControlSelect1">User</label>
