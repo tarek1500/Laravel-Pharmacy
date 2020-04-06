@@ -20,7 +20,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return view('order.create');
+        return view('order.index');
     }
 
     /**
@@ -57,31 +57,22 @@ class OrderController extends Controller
                                                     ->first()->id;
         if (Auth::guard('admin')->check()) {
             $order_params['creator_type'] = 'admin';
-            $order_params['doctor_id'] = null;
-            $order_params['pharamcy_id'] = null;
         } else if (Auth::guard('pharmacy')->check()) {
             $order_params['creator_type'] = 'pharmacy';
-            $order_params['doctor_id'] = null;
             $order_params['pharamcy_id'] = Auth::user()->id;
         } else if (Auth::guard('doctor')->check()) {
             $order_params['creator_type'] = 'doctor';
-            $order_params['pharamcy_id'] = null;
             $order_params['doctor_id'] = Auth::user()->id;
         }
-        $order_params['total_price'] = 0;
+        $order_params['total_price'] = $total_price=0;
         $order = Order::create($order_params);
-        $total_price = 0;
         for ($i = 0; $i < count($request['med_name']); $i++) {
             $name = $request['med_name'][$i];
             $type = $request['med_name'][$i];
-            if (!$medicine=Medicine::where(['name' => $name, 'type' => $type])->get()->first()) {
+            if (!$medicine=Medicine::where(['name' => $name, 'type' => $type])->get()->first()) 
                 $medicine = Medicine::create(['name' => $name, 'type' => $type]);
-                $medicine->orders()->attach($order, ['quantity' => $request['med_quantity'][$i], 'price' => $request['med_price'][$i]]);
-                $total_price += $request['med_price'][$i] * $request['med_quantity'][$i];
-            } else {
-                $medicine->orders()->attach($order, ['quantity' => $request['med_quantity'][$i], 'price' => $request['med_price'][$i]]);
-                $total_price += $request['med_price'][$i] * $request['med_quantity'][$i];
-            }
+            $medicine->orders()->attach($order, ['quantity' => $request['med_quantity'][$i], 'price' => $request['med_price'][$i]]);
+            $total_price += $request['med_price'][$i] * $request['med_quantity'][$i];
         }
         $order->update(['total_price' => $total_price]);
     }
