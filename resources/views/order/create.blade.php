@@ -9,7 +9,8 @@
 @csrf
 <div class="form-group px-5">
     <label for="exampleFormControlSelect1">User</label>
-    <select class="form-control mb-4" id="exampleFormControlSelect1" name="order_user_id">
+    <select class="form-control mb-4" id="userSelect" name="order_user_id">
+      <option ></option>
       @foreach ($users as $user)
        <option value="{{$user->id}}">{{$user->name}}</option>
       @endforeach
@@ -18,25 +19,34 @@
   <label class="px-5">Medicines:</label>
   <div class="container px-5 medicineContainer">
     <div class="row medicineRow">
-      <div class="col-4">
+      <div class="col-4 medicineNameContainer">
         <label for="exampleFormControlInput1">Medicine Name</label>
-        <input type="text" name="med_name[]" class="form-control mb-4" >
+        <select name="med_name[]" class="form-control mb-4 medicineNameSelect">
+          @foreach ($medicines as $medicine)
+          <option ></option>
+           <option value="{{$medicine->name}}">{{$medicine->name}}</option>
+          @endforeach
+        </select>
       </div>
-      <div class="col-3">
+      <div class="col-3 " id='medTypeContainer'>
         <label for="">Medicine Type</label>
-        <input type="text" name="med_type[]" class="form-control mb-4" >
+        <select name="med_type[]" id="" class="form-control mb-4 medicineTypeSelect">
+          <option ></option>
+          @foreach ($medicines as $medicine)
+           <option value="{{$medicine->type}}">{{$medicine->type}}</option>
+          @endforeach
+        </select>
       </div>
-      <div class="col-2">
+      <div class="col-2" id="medQuanityContainer">
         <label for="">Quantity</label>
       <input type="number" name="med_quantity[]" class="form-control mb-4" >
       </div>
-      <div class="col-2">
+      <div class="col-2 " id="medPriceContainer">
         <label for="">Price</label>
       <input type="number" name="med_price[]"class="form-control mb-4" >
       </div>
-      <div class="col-1 my-4">
+      <div class="col-1 my-4" id="addMedBtnContainer">
         <button class="btn btn-success" id="addMedBtn" type="button">+</button>
-
       </div>
     </div>
     
@@ -49,7 +59,7 @@
   </div>
   <div class="form-group px-5">
     <label for="exampleFormControlInput1">Statues</label>
-    <select name="status_id"  class="form-control">
+    <select name="status_id"  class="form-control"  @auth('admin') {{ 'disabled' }} @endauth >
       @foreach ($statuses as $key =>$value)
       <option value={{$value}} >{{$key}}</option>
       @endforeach
@@ -57,14 +67,25 @@
     </select>
   </div>
 
-
- 
-
   <div class="form-group">
     <button type="submit" class="btn btn-success ">Order</button>
   </div>
 
 </form>
+
+<select name="med_name[]" class="form-control mb-4 medData d-none">
+  <option ></option>
+  @foreach ($medicines as $medicine)
+   <option value="{{$medicine->name}}">{{$medicine->name}}</option>
+  @endforeach
+</select>
+
+<select name="med_type[]" class="form-control mb-4 typeData d-none">
+  <option ></option>
+  @foreach ($medicines as $medicine)
+   <option value="{{$medicine->type}}">{{$medicine->type}}</option>
+  @endforeach
+</select>
 
 @if ($errors->any())
     <div class="alert alert-danger">
