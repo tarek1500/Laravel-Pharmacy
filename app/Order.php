@@ -32,7 +32,7 @@ class Order extends Model
      public function medicines()
      {   //many to many
 
-         return $this->belongsToMany(Medicine::class,'medicine_orders');
+         return $this->belongsToMany(Medicine::class,'medicine_orders')->withTimestamps();
      }
 
      public function prescriptions()
