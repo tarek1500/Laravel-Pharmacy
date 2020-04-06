@@ -31,17 +31,7 @@ class VerificationController extends Controller
      */
     protected $redirectTo = '/doctor';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('doctor.auth');
-        $this->middleware('signed')->only('doctor.verify');
-        $this->middleware('throttle:6,1')->only('doctor.verify', 'resend');
-    }
+   
 
     /**
      * Show the email verification notice.

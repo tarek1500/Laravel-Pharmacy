@@ -15,7 +15,6 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->unsignedBigInteger('delivering_address_id');
             $table->unsignedBigInteger('doctor_id')->nullable();
             $table->boolean('is_insured')->default('0');
@@ -26,6 +25,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('total_price');
             $table->foreign('delivering_address_id')->references('id')->on('addresses');
             $table->foreign('order_user_id')->references('id')->on('users');
+            $table->timestamps();
         });
     }
 

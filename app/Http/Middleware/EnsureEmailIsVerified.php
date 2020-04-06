@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class EnsureAdminEmailIsVerified
+class EnsureEmailIsVerified
 {
     /**
      * Handle an incoming request.
@@ -18,14 +18,18 @@ class EnsureAdminEmailIsVerified
      */
     public function handle($request, Closure $next, $redirectToRoute = null)
     {
-        if (!$request->user('admin') ||
-            ($request->user('admin') instanceof MustVerifyEmail &&
-                !$request->user('admin')->hasVerifiedEmail())) {
+        
+        if(($request->user('pharmacy') && $request->user('pharmacy')->hasVerifiedEmail())
+             || ($request->user('doctor') && $request->user('doctor')->hasVerifiedEmail() ) 
+                || $request->user("admin")) {
+                    return $next($request);
+            }
+  
+       else {
             return $request->expectsJson()
                     ? abort(403, 'Your email address is not verified.')
-                    : Redirect::route($redirectToRoute ?: 'admin.verification.notice');
+                    : Redirect::route($redirectToRoute ?: 'pharmacy.verification.notice');
         }
-
-        return $next($request);
+     
     }
 }

@@ -4,11 +4,12 @@ namespace App;
 
 use App\Notifications\Doctor\Auth\ResetPassword;
 use App\Notifications\Doctor\Auth\VerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
-class Doctor extends Authenticatable
+class Doctor extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasRoles;
@@ -25,6 +26,7 @@ class Doctor extends Authenticatable
         'avatar_image',
         'is_baned',
         'pharmacy_id',
+        
     ];
 
     /**
@@ -68,7 +70,7 @@ class Doctor extends Authenticatable
 
      //function pharmacy represent one to many relation between pharmacy and doctors
      public function pharmacy()
-     {   
+     {
          return $this->belongsTo('App\Pharmacy');
      }
 }

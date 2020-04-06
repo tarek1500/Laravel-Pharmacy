@@ -104,3 +104,35 @@ areas --
 status --
 preciprtions --
 
+--------------------------------------------------
+
+Abd Allah:
+Auth, Authorization (+ View), Verify email, Reset password
+profile :update-show
+order (api)
+
+Ali:
+View
+Doctor: (unban-ban, package(optional))
+schedule commands: email last login
+
+Mohammed:
+Validation
+Order: status column and remove table (static Array)
+Auto complete medicine
+schedule commands: asign orders run every minute
+
+Sarah:
+Pharmacy: soft delete
+Revenue Tab
+crud for user: Addresses
+schedule commands: asign orders run every minute
+
+Tarek:
+Area
+Medicine
+user: login
+user: register
+verifiction
+welcome message
+send notification on order status change
