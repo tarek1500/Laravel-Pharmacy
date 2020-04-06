@@ -29,10 +29,10 @@ class RegisterRequest extends FormRequest
 			'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
 			'password' => ['required', 'string', 'min:8', 'confirmed'],
 			'gender' => ['required', Rule::in(['m', 'f'])],
-			'data_of_birth' => ['date'],
+			'date_of_birth' => ['date'],
 			'avatar_img' => ['image', 'max:5120', 'mimes:jpeg,bmp,png'],
 			'mobile_number' => ['required', 'size:11'],
-			'national_id' => ['required', 'size:14'],
+			'national_id' => ['required', 'size:14', 'unique:users,national_id'],
 			'device_name' => ['required']
 		];
     }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -55,11 +56,13 @@ class AuthController extends Controller
 			'email' => $request->email,
 			'password' => Hash::make($request->password),
 			'gender' => $request->gender,
-			'data_of_birth' => $request->data_of_birth,
+			'date_of_birth' => $request->date_of_birth,
 			'avatar_img' => $avatar_path,
 			'mobile_number' => $request->mobile_number,
 			'national_id' => $request->national_id
 		]);
+
+		event(new Registered($user));
 
 		return $user->createToken($request->device_name)->plainTextToken;
     }

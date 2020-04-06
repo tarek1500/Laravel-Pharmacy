@@ -2,13 +2,14 @@
 
 namespace App;
 
+use App\Notifications\User\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, Notifiable;
 
@@ -58,6 +59,16 @@ class User extends Authenticatable
     ];
 
 	protected $appends = ['avatar'];
+
+	/**
+	 * Send the email verification notification.
+	 *
+	 * @return void
+	 */
+	public function sendEmailVerificationNotification()
+	{
+		$this->notify(new VerifyEmail);
+	}
 
 	public function getAvatarAttribute()
 	{
