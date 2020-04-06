@@ -10,4 +10,9 @@ class Prescription extends Model
         'image',
         'order_id'
     ];
+
+    public function order()
+    {
+        return $this->belongsTo('App\Order');
+    }
 }
