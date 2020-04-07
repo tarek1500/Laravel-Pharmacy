@@ -4,6 +4,12 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\PharmacyRequest;
+use App\Pharmacy;
+use App\Area;
+use App\Order;
+use App\MedicinePharmacy;
+use App\Doctor;
 
 class PharmacyController extends Controller
 {
@@ -13,7 +19,22 @@ class PharmacyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {  
+        $pharmacies = Pharmacy::all();
+        if(request()->ajax())
+        {
+            
+            return datatables()->of($pharmacies)->addColumn('action', function($data){
+                $button = '<a type="button" name="show" href=" /dashboard/pharmacies/'.$data->id.'" id="'.$data->id.'" class="btn btn-success" ><i class="fa fa-eye"></i></a>';
+                $button .= '<a type="button" name="edit" href=" /dashboard/pharmacies/'.$data->id.'/edit" id="'.$data->id.'" class="btn btn-primary" ><i class="fas fa-edit"></i></a>';
+                $button .= '<button type="button" name="delete" onclick="deletePharmacy('.$data->id.')" id="'.$data->id.'" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></button>';
+
+                return $button;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
+ 
         return view('pharmacies');
     }
 
@@ -24,8 +45,11 @@ class PharmacyController extends Controller
      */
     public function create()
     {
-        //
-    }
+        $areas = Area::all();
+        return view('pharmacyTab.create', [
+            'areas' => $areas,
+        ]);
+     }
 
     /**
      * Store a newly created resource in storage.
@@ -33,9 +57,27 @@ class PharmacyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(PharmacyRequest $request)
+    {   $new_name;
+        if($request->hasFile('avatar_image')){
+            $image = $request->file('avatar_image');
+            $new_name = rand() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('/images/pharmacy_avatar/'), $new_name);
+            }
+        else
+        {$new_name="default.jpg";}
+                Pharmacy::create([
+                    'name' => $request->name,
+                    'email'=> $request->email,
+                    'password' => $request->password,
+                    'national_id' => $request->national_id,
+                    'avatar_image' => $new_name,
+                    'priority'=> $request->priority,
+                    'area_id'=> $request->area_id,
+                ]);
+                return redirect()->route('dashboard.pharmacies.index');  
+      
+
     }
 
     /**
@@ -46,7 +88,13 @@ class PharmacyController extends Controller
      */
     public function show($id)
     {
-        //
+        $pharmacy = Pharmacy::find($id);
+        if($pharmacy)
+            return view('pharmacyTab.show' , [
+                "pharmacy" => $pharmacy
+                ]);
+        return abort(404);    
+
     }
 
     /**
@@ -57,7 +105,16 @@ class PharmacyController extends Controller
      */
     public function edit($id)
     {
-        //
+        $pharmacy = Pharmacy::find($id);
+        if($pharmacy){
+            $areas = Area::all();
+            return view("pharmacyTab.edit",[
+                "pharmacy" => $pharmacy,
+                "areas" => $areas,
+                ]);
+        }
+
+        return abort(404);
     }
 
     /**
@@ -67,9 +124,28 @@ class PharmacyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(PharmacyRequest $request, $id)
+    { 
+        $pharmacy = Pharmacy::find($id);
+        if($request->hasFile('avatar_image')){
+            $image = $request->file('avatar_image');
+            $new_name = rand() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('/images/pharmacy_avatar/'), $new_name);
+            $pharmacy->update(
+                ['name' => $request->name,
+                'email'=> $request->email,
+                'password' => $request->password,
+                'national_id' => $request->national_id,
+                'avatar_image' => $new_name,
+                'priority'=> $request->priority,
+                'area_id'=> $request->area_id,]
+            );
+            }
+        else{
+            $pharmacy->update($request->all());
+        }
+           
+            return redirect()->route('dashboard.pharmacies.index');  
     }
 
     /**
@@ -79,7 +155,25 @@ class PharmacyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
-    }
+    {   $orders=Order::where('pharamcy_id',$id)->get()->count();
+        if($orders==0)
+        {
+        // $doctors=Doctor::where('pharmacy_id',$id)->get();
+        // if ($doctors->count()>0) 
+        //  { foreach($doctor as $doctors)
+        //      {$doctor->delete();}}
+        
+        // $medicines=MedicinePharmacy::where('pharmacy_id',$id)->get();
+        // if ($medicines->count()>0) 
+        //  {foreach($medicine as $medicines)
+        //     { $medicine->delete();}}
+
+        $pharmacy = Pharmacy::find($id);
+        $pharmacy->delete();
+        }
+        else 
+        {return response()->json(['errors' => 'cant delete pharmacy have orders.']);}
+    
+}
+
 }
