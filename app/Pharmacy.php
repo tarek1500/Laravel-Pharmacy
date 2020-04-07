@@ -8,11 +8,14 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use  Illuminate\Database\Eloquent\SoftDeletes;
 
 class Pharmacy extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasRoles;
+    use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
