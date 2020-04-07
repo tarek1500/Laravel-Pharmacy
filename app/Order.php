@@ -32,7 +32,7 @@ class Order extends Model
      public function medicines()
      {   //many to many
 
-         return $this->belongsToMany(Medicine::class,'medicine_orders')->withTimestamps();
+         return $this->belongsToMany(Medicine::class,'medicine_orders')->withPivot(['price','quantity'])->withTimestamps();
      }
 
      public function prescriptions()
@@ -68,5 +68,12 @@ class Order extends Model
             $medicines[]=$medicine;
         }
         return $medicines;
+    }
+
+    public function getPharmacyAttribute()
+    {
+        $pharmacy= Pharmacy::find($this->pharamcy_id);   
+        $pharmacy['address']=$pharmacy->area->name.", ".$pharmacy->area->address;
+        return $pharmacy;
     }
 }

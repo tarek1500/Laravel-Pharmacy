@@ -17,7 +17,7 @@ class PharmacyResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'address'=>$this->area,
+            'address'=>$this->address,
             'avatar_img'=>$this->avatar_img, 
         ];
     }

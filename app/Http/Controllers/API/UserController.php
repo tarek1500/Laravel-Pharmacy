@@ -36,7 +36,7 @@ class UserController extends Controller
         $user = $request->only(["name","mobile_number"]);
         $avatar = $request->file('avatar_img');
         if($avatar)
-            $user["avatar_img"] = $avatar;
+            $user["avatar"] = $avatar;
         User::find(Auth::id())->update($user);
         return ["success"=>"updated profile successfully"];
     }

@@ -17,8 +17,8 @@ class MedicineResource extends JsonResource
         return [
             'name'=>$this->name,
             'type'=>$this->type,
-            'quantity'=>$this->quantity,
-            'price'=>$this->price   
+             'quantity'=>$this->quantity,
+             'price'=>$this->price   
         ];
     }
 }
