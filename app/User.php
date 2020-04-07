@@ -57,5 +57,14 @@ class User extends Authenticatable
 			return 'data:' . Storage::mimeType($path) . ';base64,' . base64_encode(Storage::get($path));
 
 		return null;
-	}
+    }
+    
+    public function setAvatarImgAttribute($image){
+        
+        if(isset($this->attributes['avatar_img']))
+            Storage::delete($this->avatar_img);
+
+        $path=$image->store('images/avatars');
+        $this->attributes['avatar_img']=$path;
+    }
 }

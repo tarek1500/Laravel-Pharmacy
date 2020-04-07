@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\OrderResource;
+use App\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -14,7 +17,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        return OrderResource::collection(
+            Order::with('medicine')->paginate(5)
+        );
     }
 
     /**
@@ -25,7 +30,10 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $order = $request->all();
+        $order['order_user_id']=Auth::id();
+        
+
     }
 
     /**
@@ -36,7 +44,11 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = Order::find($id);
+        
+        if($order)
+            return new OrderResource($order);
+        return ["error"=>"order not found"];
     }
 
     /**

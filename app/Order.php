@@ -25,4 +25,14 @@ class Order extends Model
 
          return $this->belongsToMany(Medicine::class,'medicine_orders');
      }
+
+     public function getCompleteMedicinesAttribute(){
+         $medicines=[];
+         foreach($this->medicines as $medicine){
+             $medicine["quantity"]=$medicine->pivot->quantity;
+             $medicine["price"] = $medicine->pivot->price;
+             $medicines[]=$medicine;
+         }
+         return $medicines;
+     }
 }
