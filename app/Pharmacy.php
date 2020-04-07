@@ -57,7 +57,7 @@ class Pharmacy extends Authenticatable implements MustVerifyEmail
     
     public function medicines()
     {  //many to many relation
-        return $this->belongsToMany(Medicine::class,'medicine_pharmacies');
+        return $this->belongsToMany(Medicine::class,'medicine_pharmacies')->withTimestamps();
     }
 
     /**

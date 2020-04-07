@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->char('gender');
-            $table->date('data_of_birth');
+            $table->date('date_of_birth');
             $table->text('avatar_img');
             $table->text('mobile_number');
             $table->unsignedBigInteger('national_id')->unique();
