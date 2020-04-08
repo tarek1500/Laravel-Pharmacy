@@ -57,16 +57,23 @@ class DoctorController extends Controller
             'avatar_image' => 'required'
         ]);
 
-        $doctorImage = $request->avatar_image;
-        $ImageName = time().$doctorImage->getClientOriginalName();
-        $doctorImage->move('/images/doctors' , $ImageName);
+        if(request()->hasFile('avatar_image')){
+            $file = $request->file('avatar_image');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '.' . $extension;
+            $file->move('images/doctors/' , $fileName);
+        }else{
+            return $request;
+            $fileName='';
+        }
+
 
         Doctor::create([
             'name' => $request->name,
             'email'=> $request->email,
             'password' => $request->password,
             'national_id' => $request->national_id,
-            'avatar_image' => 'images/doctors/'.$ImageName,
+            'avatar_image' => $fileName,
             'pharmacy_id'=> $pharmacyId
         ]);
 
@@ -114,8 +121,6 @@ class DoctorController extends Controller
     {
 
         $doctor = Doctor::find($id);
-        dd($doctor->avatar_image);
-
         $pharmacyName = $request->pharmacy_name;
         $pharmacy = Pharmacy::where ('name',$pharmacyName)->get('id');
         $pharmacyId = $pharmacy["0"]["id"];
@@ -125,15 +130,19 @@ class DoctorController extends Controller
             'email'=> 'required',
             'password' => 'required | min:6',
             'national_id' => 'required | min:14 | max:14',
-            'avatar_image' => 'required'
+            // 'avatar_image' => 'required'
             ]);
 
-            $doctorImage = $doctor->avatar_image;
 
+            if(request()->hasFile('avatar_image')){
+                $file = $request->file('avatar_image');
+                $extension = $file->getClientOriginalExtension();
+                $fileName = time() . '.' . $extension;
+                $file->move('images/doctors/' , $fileName);
+            }else{
+                $fileName = $doctor->avatar_image;
+            }
 
-
-            $ImageName = time().$doctorImage->getClientOriginalName();
-            $doctorImage->move('images/doctors' , $ImageName);
 
 
             $doctor->update([
@@ -141,12 +150,11 @@ class DoctorController extends Controller
                 'email'=> $request->email,
                 'password' => $request->password,
                 'national_id' => $request->national_id,
-                'avatar_image' => 'images/doctors/'.$ImageName,
+                'avatar_image' => $fileName,
                 'pharmacy_id'=> $pharmacyId,
                 ]);
 
                 return redirect('dashboard/doctors');
-
             }
 
     /**
