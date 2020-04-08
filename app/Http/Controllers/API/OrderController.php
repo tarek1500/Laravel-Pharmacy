@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ApiOrderStoreRequest;
+use App\Http\Requests\ApiOrderUpdateRequest;
 use App\Http\Resources\OrderResource;
 use App\Order;
-use App\Prescription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+
 
 class OrderController extends Controller
 {
@@ -23,36 +24,6 @@ class OrderController extends Controller
             Order::where('order_user_id',Auth::id())->paginate(5)
         );
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $path = 'images/prescriptions';
-        $folder=Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix().$path;
-
-        $order = $request->only(['is_insured','delivering_address_id']);
-        $order['order_user_id']=Auth::id();
-        $order['creator_type']="user";
-        $order["status_id"]=1;
-        $order=Order::create($order);
-
-        foreach($request->files as $file){
-            $pathinfo = pathinfo($file->getClientOriginalName());
-            $file_path=$pathinfo['filename'].time().'.'.$pathinfo['extension'];
-            $file->move($folder, $file_path);     
-            Prescription::create([
-                'image'=>$path.$file_path,
-                'order_id'=>$order->id
-            ]);
-       }
-        return ["success"=>"your order was delivered successfully"];
-    }
-
     /**
      * Display the specified resource.
      *
@@ -69,14 +40,56 @@ class OrderController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(ApiOrderStoreRequest $request)
+    {
+        $order = $request->only(['is_insured','delivering_address_id']);
+        $order['order_user_id']=Auth::id();
+        $order['creator_type']="user";
+        $order["status_id"]=0;
+       
+        $order=Order::create($order);
+
+        if($request->hasFile('prescriptions'))
+            $order->prescriptions = $request->file('prescriptions');
+
+        return ["success"=>"your order was delivered successfully"];
+    }
+
+   
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ApiOrderUpdateRequest $request, $id)
     {
-        //
+        $order = Order::find($id);
+
+        if(!$order)
+            return ["error"=>"resource not found"];
+
+        if($order->status_id!=0)
+            return ["error"=>"can't update that order as it's not in new status"];
+        
+                
+        if($request->hasFile('prescriptions'))
+            $order->prescriptions = $request->file('prescriptions'); 
+    
+        if($request->has('cancel'))
+            if($request->cancel==1){
+                $order->status_id=3;
+                $order->save();
+            }
+              
+        
+        return ["success"=>"updated sucessfully"];
     }
 }
+
