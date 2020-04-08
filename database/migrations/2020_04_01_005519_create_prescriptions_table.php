@@ -15,8 +15,9 @@ class CreatePrescriptionsTable extends Migration
     {
         Schema::create('prescriptions', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->string('image');
+            $table->unsignedBigInteger('order_id');
+            $table->timestamps();
         });
     }
 

@@ -32,6 +32,10 @@
   <!-- Data Tables -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+  <!-- Select2 -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+  <!-- custom style-->
+  <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -259,6 +263,11 @@
     <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"  defer></script>  
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"  defer></script>
     @yield('script')
+    <!-- Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <!-- medicine creation form -->
+  <script src="{{ asset('js/medicine.js')}}"></script>
+
 </body>
 
 </html>

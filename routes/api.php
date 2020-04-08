@@ -14,14 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-	return $request->user();
-});
-
 Route::group(['namespace' => 'API', 'as' => 'api.'], function () {
-	Route::get('login', 'AuthController@login')->name('login');
-	Route::get('register', 'AuthController@register')->name('register');
-	Route::put('users/profile', 'UserController@update')->name('users.profile');
-	Route::resource('addresses', 'AddressController');
-	Route::resource('orders', 'OrderController')->only(['index', 'store', 'show', 'update']);
+	Route::post('login', 'AuthController@login')->name('login');
+	Route::post('register', 'AuthController@register')->name('register');
+
+	Route::post('email/resend', 'VerificationController@resend')->name('verification.resend');
+	Route::get('email/verify/{id}/{hash}', 'VerificationController@verify')->name('verification.verify');
+
+	Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
+		Route::get('profile', 'UserController@show')->name('users.profile.show');
+		Route::put('profile', 'UserController@update')->name('users.profile.update');
+		Route::resource('addresses', 'AddressController');
+		Route::resource('orders', 'OrderController')->only(['index', 'store', 'show', 'update']);
+	});
 });

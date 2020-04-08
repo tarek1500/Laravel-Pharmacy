@@ -5,7 +5,7 @@
 
 <h2 class = "float-left text-secondary">Orders index page</h2>
 
-<a href="" class="btn btn-success btn-lg float-right mr-5"> Create a new order </a>
+<a href="{{route('dashboard.orders.create')}}" class="btn btn-success btn-lg float-right mr-5"> Create a new order </a>
 
 <table class="table table-striped">
     <thead>

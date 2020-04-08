@@ -3,10 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Prescription extends Model
 {
     protected $fillable = [
-        'image'
+        'image',
+        'order_id'
     ];
+
+    public function order()
+    {
+        return $this->belongsTo('App\Order');
+    }
 }

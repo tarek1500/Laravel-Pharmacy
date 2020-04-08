@@ -16,7 +16,7 @@ class Medicine extends Model
     public function pharmacies()
     {   //many to many 
 
-        return $this->belongsToMany(Pharmacy::class,'medicine_pharmacies');
+        return $this->belongsToMany(Pharmacy::class,'medicine_pharmacies')->withTimestamps();
     }
     
 
@@ -25,7 +25,7 @@ class Medicine extends Model
      public function orders()
      {   //many to many
 
-         return $this->belongsToMany(Order::class,'medicine_orders');
+         return $this->belongsToMany(Order::class,'medicine_orders')->withTimestamps();
      }
      
 }

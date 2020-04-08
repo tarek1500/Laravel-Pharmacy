@@ -16,9 +16,9 @@ class CreateMedicineOrdersTable extends Migration
         Schema::create('medicine_orders', function (Blueprint $table) {
             $table->integer('medicine_id')->unsigned();
             $table->integer('order_id')->unsigned();
-            $table->timestamps();
             $table->unsignedBigInteger('price');
             $table->unsignedBigInteger('quantity');
+            $table->timestamps();
 
         });
     }
