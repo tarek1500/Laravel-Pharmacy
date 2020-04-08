@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Pharma &mdash; Colorlib Template</title>
+  <title>Online Pharmacy</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -32,20 +32,30 @@
         </div>
       </div>
     </div>
-
+@if(auth('doctor')->user() || auth('admin')->user() || auth('pharmacy')->user())
+  <div class="site-section" style="background-color: rgb(1, 58, 92);" >
+ 
+      <div class="container text-center my-5" style="background-color:rgb(1, 58, 92);; border-radius:5%" >
+            <a href="{{route('dashboard.index')}}" class="banner-1 h-100 d-flex" >
+            <img src="images/welcome/dashboard.png" alt="" >
+            <span class="align-self-center" style="font-size:3rem;color:#FFF">Go to Dahsboard</span>
+            </a>
+      </div>
+   </div>
+@else
 
     <div class="site-section" style="background-color: rgb(1, 58, 92);">
       <div class="container">
         <div class="row align-items-stretch">
           <div class="col-lg-4 mb-5 mb-lg-0">
-            <a href="#" class="banner-1 h-100 d-flex" style="background-image: url('images/welcome/bg_1.jpg');">
+            <a href="{{route('admin.login')}}" class="banner-1 h-100 d-flex" style="background-image: url('images/welcome/bg_1.jpg');">
               <div class="banner-1-inner align-self-center">
                 <h2>login as an Adminstrator</h2>
               </div>
             </a>
           </div>
           <div class="col-lg-4 mb-5 mb-lg-0">
-            <a href="#" class="banner-1 h-100 d-flex" style="background-image: url('images/welcome/confused-pharmacist.jpg');">
+            <a href="{{route('pharmacy.login')}}" class="banner-1 h-100 d-flex" style="background-image: url('images/welcome/confused-pharmacist.jpg');">
               <div class="banner-1-inner mr-auto  align-self-center">
                 <h2>login as Owner</h2>
               </div>
@@ -53,7 +63,7 @@
           </div>
 
           <div class="col-lg-4 mb-5 mb-lg-0">
-            <a href="#" class="banner-1 h-100 d-flex" style="background-image: url('images/welcome/bg_2.jpg');">
+            <a href="{{route('doctor.login')}}" class="banner-1 h-100 d-flex" style="background-image: url('images/welcome/bg_2.jpg');">
               <div class="banner-1-inner ml-auto  align-self-center">
                 <h2>login as a doctor</h2>
               </div>
@@ -62,6 +72,7 @@
         </div>
       </div>
     </div>
+@endif
 
   </div>
 

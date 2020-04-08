@@ -62,6 +62,6 @@ class LoginController extends Controller
 
         $request->session()->invalidate();
 
-        return $this->loggedOut($request) ?: redirect()->route('doctor.home');
+        return $this->loggedOut($request) ?: redirect()->route('home');
     }
 }
