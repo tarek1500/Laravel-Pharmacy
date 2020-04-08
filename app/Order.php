@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Order extends Model
 {
@@ -75,5 +76,28 @@ class Order extends Model
         $pharmacy= Pharmacy::find($this->pharamcy_id);   
         $pharmacy['address']=$pharmacy->area->name.", ".$pharmacy->area->address;
         return $pharmacy;
+    }
+
+    public function setPrescriptionsAttribute($files)
+    {   
+        $this->deleteOldPrescriptions();
+        foreach($files as $file){ 
+            $path = $file->store('images/prescriptions');
+            Prescription::create([
+                'image'=>$path,
+                'order_id'=>$this->id
+            ]);
+       }
+       $this->save();
+    }
+
+    private function deleteOldPrescriptions(){
+        $prescriptions = Prescription::where('order_id',$this->id)->get();
+    
+        if($prescriptions)
+            foreach($prescriptions as $pres){
+                Storage::delete($pres->image);
+                $pres->delete();
+            }
     }
 }
