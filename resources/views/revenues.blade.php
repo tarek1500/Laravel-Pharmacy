@@ -2,15 +2,15 @@
 @section('title', 'Revenues')
 
 @section('content')
-
+<div class="container">    
 <div class="card text-center bg-success p-0">
   <div class="card-body p-2">
-    <h3>Today's Total Revenue is $2000</h3>
+    <h3>Pharmacies Total Revenue is {{$pharmacies_total}}</h3>
   </div>
 </div>
+<div class="table-responsive">
 
-
-<table class="table">
+<table class="table table-bordered table-striped" id="revenue_table">
   <thead>
     <tr>
       <th scope="col">PharmacyAvatar</th>
@@ -19,15 +19,31 @@
       <th scope="col">TotalRevenue</th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      <td> <img width="40px" src="/images/logo.png" alt=""></td>
-      <td>Elazaby</td>
-      <td>50</td>
-      <td>2000$</td>
-    </tr>
-  
-  </tbody>
 </table>
+</div>
+</div>
+@endsection
 
+@section('script')
+  <script>
+$(document).ready(function(){
+
+ $('#revenue_table').DataTable({
+  processing: true,
+  serverSide: true,
+  ajax:'{{ route('dashboard.revenue.index') }}',
+  
+               columns: [
+                        { data: 'avatar_image', name: 'avatar_image' ,
+                          render: function(data, type, full, meta){
+                           return "<img src=/images/pharmacy_avatar/" + data + " alt='avatar' height='42' width='42' />";}},
+                        { data: 'name', name: 'name' },
+                        { data: 'TotalOrders', name: 'TotalOrders' },
+                        { data: 'TotalRevenue', name: 'TotalRevenue' },
+                        
+                     ],
+            });
+         });
+  </script>
+        
 @endsection
