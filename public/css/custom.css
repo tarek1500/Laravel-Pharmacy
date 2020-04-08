@@ -1,4 +1,11 @@
-.select2-container .select2-selection--single
+.select2-container .select2-selection--single 
 {
-    height: 2.3em!important;
+    height: 2.3em !important;
+}
+
+.disabled
+{
+    pointer-events: none;
+    background: rgba(128, 128, 128, 0.418);
+
 }
