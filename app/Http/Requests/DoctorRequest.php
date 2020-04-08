@@ -25,10 +25,16 @@ class DoctorRequest extends FormRequest
     {
         return [
             'name'=> 'required|min:6',
-            'email'=> 'required|unique:doctors|email_address',
             'password'=> 'required|min:6',
-            'national_id'=> 'required|unique:doctors|numeric',
+            'email' => [
+                'required','email',
+                Rule::unique('doctors')->ignore($this->doctor)
+            ],
             'avatar_image'=> 'file|mimes:jpeg,jpg',
+            'national_id' => [
+                'required','numeric',
+                Rule::unique('doctors')->ignore($this->doctor)
+            ],
             'priority'=> 'required',
             'area_id'=> 'required'
         ];

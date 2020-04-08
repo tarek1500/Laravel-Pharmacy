@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PharmacyRequest extends FormRequest
 {
@@ -25,10 +26,17 @@ class PharmacyRequest extends FormRequest
     {
         return [
             'name'=> 'required|min:6',
-            'email'=> 'required|unique:pharmacies|email_address',
+            'email' => [
+                'required','email',
+                Rule::unique('pharmacies')->ignore($this->pharmacy)
+            ],
+           
             'password'=> 'required|min:6',
-            'national_id'=> 'required|unique:pharmacies|numeric',
-            'avatar_image'=> 'file|mimes:jpeg,jpg',
+            'national_id' => [
+                'required','numeric',
+                Rule::unique('pharmacies')->ignore($this->pharmacy)
+            ],
+            'avatar_image'=> 'sometimes|file|mimes:jpeg,jpg',
             'priority'=> 'required',
             'area_id'=> 'required'
         ];
