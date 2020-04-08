@@ -63,6 +63,21 @@ class Pharmacy extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Medicine::class,'medicine_pharmacies');
     }
 
+    public function doctors(){
+        return $this->hasMany('App\Doctor');
+    }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($pharmacy) { // before delete() method call this
+            
+            Doctor::where('pharmacy_id',$pharmacy->id)->delete();
+            MedicinePharmacy::where('pharmacy_id',$pharmacy->id)->delete();
+        
+        });
+}
+
     /**
      * Send the password reset notification.
      *
