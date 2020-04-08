@@ -24,7 +24,7 @@ Route::group(['namespace' => 'API', 'as' => 'api.'], function () {
 	Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 		Route::get('profile', 'UserController@show')->name('users.profile.show');
 		Route::put('profile', 'UserController@update')->name('users.profile.update');
-		Route::resource('addresses', 'AddressController');
-		Route::resource('orders', 'OrderController')->only(['index', 'store', 'show', 'update']);
+		Route::resource('addresses', 'AddressController')->except(['create', 'edit']);
+		Route::resource('orders', 'OrderController')->except(['create', 'edit', 'delete']);
 	});
 });

@@ -1,26 +1,22 @@
 <?php
 
-namespace App\Notifications\User;
+namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class SendWelcomeMessage extends Notification implements ShouldQueue
+class SendOrderStatusMessage extends Notification
 {
-    use Queueable;
+    private $order;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($order)
     {
-		$this->connection = 'database';
-		$this->queue = 'welcome';
-		$this->delay = 60;
+		$this->order = $order;
     }
 
     /**
@@ -43,8 +39,9 @@ class SendWelcomeMessage extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
 		return (new MailMessage)
-			->subject('Welcome to our website')
-			->line('We are happy so that you are using our website.')
+			->subject('Order status changed')
+			->line('The status of the order that belongs to you has beed changed.')
+			->line('Order price: ' . $this->order->total_price / 100.0 . '$')
 			->action('Our Website', route('home'))
 			->line('Thank you for using our application!');
     }
