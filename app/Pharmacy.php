@@ -8,11 +8,14 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use  Illuminate\Database\Eloquent\SoftDeletes;
 
 class Pharmacy extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasRoles;
+    use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -59,6 +62,21 @@ class Pharmacy extends Authenticatable implements MustVerifyEmail
     {  //many to many relation
         return $this->belongsToMany(Medicine::class,'medicine_pharmacies')->withTimestamps();
     }
+
+    public function doctors(){
+        return $this->hasMany('App\Doctor');
+    }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($pharmacy) { // before delete() method call this
+            
+            Doctor::where('pharmacy_id',$pharmacy->id)->delete();
+            MedicinePharmacy::where('pharmacy_id',$pharmacy->id)->delete();
+        
+        });
+}
 
     /**
      * Send the password reset notification.

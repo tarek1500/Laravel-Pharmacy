@@ -15,20 +15,23 @@ Route::group(['namespace' => 'Pharmacy'], function() {
                     ->name('pharmacy.verification.resend')->middleware('throttle:6,1');
     });
     
-    // Login
-    Route::get('login', 'Auth\LoginController@showLoginForm')->name('pharmacy.login')
-                ->middleware(["admin.guest","doctor.guest","pharmacy.guest"]);
     Route::post('login', 'Auth\LoginController@login');
     Route::post('logout', 'Auth\LoginController@logout')->name('pharmacy.logout');
 
-    // Reset Password
-    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')
-                ->name('pharmacy.password.request');
-    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')
-                ->name('pharmacy.password.email');
-    Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')
-                ->name('pharmacy.password.reset');
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset')
-                ->name('pharmacy.password.update');
+    Route::group(["middleware"=>["admin.guest","doctor.guest","pharmacy.guest"]],function ()
+    {
+         // Login
+        Route::get('login', 'Auth\LoginController@showLoginForm')->name('pharmacy.login');
+        // Reset Password
+        Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')
+            ->name('pharmacy.password.request');
+        Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')
+            ->name('pharmacy.password.email');
+        Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')
+            ->name('pharmacy.password.reset');
+        Route::post('password/reset', 'Auth\ResetPasswordController@reset')
+            ->name('pharmacy.password.update');
+    });
+    
     
 });

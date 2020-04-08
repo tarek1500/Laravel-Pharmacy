@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\UserUpdateRequest;
+use App\Http\Resources\UserResource;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -13,9 +16,13 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show()
     {
-        //
+       $user = User::find(Auth::id());
+        
+        if($user)
+            return new UserResource($user);
+        return ["error"=>"user not found"];
     }
 
     /**
@@ -24,8 +31,14 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(UserUpdateRequest $request)
     {
-        //
+        $user = $request->only(["name","mobile_number"]);
+        $avatar = $request->file('avatar_img');
+        if($avatar)
+            $user["avatar"] = $avatar;
+        User::find(Auth::id())->update($user);
+        return ["success"=>"updated profile successfully"];
     }
+
 }

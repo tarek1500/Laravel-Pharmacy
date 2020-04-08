@@ -16,22 +16,25 @@ Route::group(['namespace' => 'Doctor'], function() {
                 ->name('doctor.verification.resend')->middleware('throttle:6,1');
     });
    
-    // Login
-    Route::get('login', 'Auth\LoginController@showLoginForm')->name('doctor.login')
-                ->middleware(["admin.guest","doctor.guest","pharmacy.guest"]);
+       
     Route::post('login', 'Auth\LoginController@login');
     Route::post('logout', 'Auth\LoginController@logout')->name('doctor.logout');
 
-
-
-    // Reset Password
-    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')
+    Route::group(["middleware"=>["admin.guest","doctor.guest","pharmacy.guest"]], function(){
+        
+        // Login
+        Route::get('login', 'Auth\LoginController@showLoginForm')->name('doctor.login');
+        
+        // Reset Password
+        Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')
                 ->name('doctor.password.request');
-    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')
+        Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')
                 ->name('doctor.password.email');
-    Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')
+        Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')
                 ->name('doctor.password.reset');
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset')
+        Route::post('password/reset', 'Auth\ResetPasswordController@reset')
                 ->name('doctor.password.update');
 
+    });
+   
 });

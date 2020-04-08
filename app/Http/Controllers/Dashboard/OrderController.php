@@ -85,11 +85,11 @@ class OrderController extends Controller
             if (!$medicine=Medicine::where(['name' => $name, 'type' => $type])->get()->first()) 
                 $medicine = Medicine::create(['name' => $name, 'type' => $type]);
 
-            $medicine->orders()->attach($order, ['quantity' => $request['med_quantity'][$i], 'price' => $request['med_price'][$i]]);
+            $medicine->orders()->attach($order, ['quantity' => $request['med_quantity'][$i], 'price' => $request['med_price'][$i]*100]);
             if(!Auth::guard('admin')->check()) 
                 $medicine->pharmacies()->attach($pharmacy);
 
-            $total_price += $request['med_price'][$i] * $request['med_quantity'][$i];
+            $total_price += $request['med_price'][$i]*100 * $request['med_quantity'][$i];
         }
         $order->update(['total_price' => $total_price]);
         return redirect(route('dashboard.orders.index'));
@@ -114,7 +114,27 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        //
+        $order=Order::find($id);
+
+        $users = User::all();
+        $statuses=Order::$statuses;
+        $medicines=[];
+        if (Auth::guard('admin')->check()) {
+            $medicines=Medicine::all();
+        } else if (Auth::guard('pharmacy')->check()) {
+            $medicines=Auth::user()->medicines;
+        } else if (Auth::guard('doctor')->check()) {
+            $medicines=Auth::user()->pharmacy->medicines;
+        }
+        // dd($statuses);
+            
+        return view('order.edit',[
+            'users'=>$users,
+            'statuses' =>$statuses,
+            'medicines'=>$medicines,
+            'order'=>$order
+        ]);
+       
     }
 
     /**
@@ -126,7 +146,34 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $order=Order::find($id);
+        $order_params= $request->only([
+            'order_user_id',
+            'is_insured',
+            'status_id' 
+        ]);
+        !isset($request['is_insured'])? $order_params['is_insured']=0:'';
+        $order_params['delivering_address_id'] = User::find($request['order_user_id'])
+                                                ->addresses()
+                                                ->where('is_main', '1')
+                                                ->first()->id;
+        $order->medicines()->detach();
+        $order_params['total_price']=0;
+        for ($i = 0; $i < count($request['med_name']); $i++) {
+            $name = $request['med_name'][$i];
+            $type = $request['med_type'][$i];
+            if (!$medicine=Medicine::where(['name' => $name, 'type' => $type])->get()->first()) 
+                $medicine = Medicine::create(['name' => $name, 'type' => $type]);
+
+            $medicine->orders()->attach($order, ['quantity' => $request['med_quantity'][$i], 'price' => $request['med_price'][$i]*100]);
+            if(!Auth::guard('admin')->check()) 
+                $medicine->pharmacies()->attach($order->pharmacy);
+
+            $order_params['total_price'] += $request['med_price'][$i]*100 * $request['med_quantity'][$i];
+        }
+        $order->update($order_params);
+        return redirect(route('dashboard.orders.index'));
+
     }
 
     /**
