@@ -228,13 +228,13 @@
     <!-- jQuery UI 1.11.4 -->
     {{-- <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script> --}}
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    {{-- <script>
+     <script>
       $.widget.bridge('uibutton', $.ui.button)
-    </script> --}}
+    </script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- ChartJS -->
-    {{-- <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script> --}}
+    <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
     <!-- Sparkline -->
     <script src="{{ asset('plugins/sparklines/sparkline.js') }}"></script>
     <!-- JQVMap -->
@@ -260,7 +260,7 @@
     <!-- Data Tables -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"  defer></script>
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js" defer></script>
-    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"  defer></script>  
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"  defer></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"  defer></script>
     @yield('script')
     <!-- Select2 -->

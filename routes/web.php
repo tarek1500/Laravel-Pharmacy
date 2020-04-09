@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard;
-
+use App\Mail\MissuEmail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +14,7 @@ use App\Http\Controllers\Dashboard;
 |
 */
 
-Route::get('/', function () { return view('welcome'); })->name('home');
+Route::get('/', function () { return new MissuEmail;})->name('home');
 
 Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dashboard.', "middleware"=>["auth:pharmacy,admin,doctor","emails.verified"]], function () {
 	Route::get('/', function () { return view('index'); })->name('index');
