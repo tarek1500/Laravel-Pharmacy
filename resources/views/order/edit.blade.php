@@ -94,8 +94,9 @@
     </select>
   </div>
 
-  <div class="form-group">
-    <button type="submit" class="btn btn-success ">Order</button>
+  <div class="form-group text-center">
+    <button type="submit" class="btn btn-success d-block mx-auto" style="width:80%;">Save</button>
+    <a href="{{route('dashboard.orders.index')}}" class="btn btn-secondary d-block mx-auto mt-1" style="width:80%;">Cancel</a>
   </div>
 </form>
 <div class="container">

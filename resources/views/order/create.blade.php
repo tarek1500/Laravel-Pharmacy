@@ -69,7 +69,7 @@
   </div>
 
   <div class="form-group">
-    <button type="submit" class="btn btn-success ">Order</button>
+    <button type="submit" class="btn btn-success d-block mx-auto" style="width:80%;">Order</button>
   </div>
 
 </form>

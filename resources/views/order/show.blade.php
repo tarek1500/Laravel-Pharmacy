@@ -83,6 +83,7 @@
              <p><i class="fa fa-calendar"></i> <span>Created_at</span> {{$order->created_at->format('d M Y')}}</p>
               <p><i class="fa fa-calendar"></i><span> Updated_at</span> {{$order->updated_at->format('d M Y')}}</p>    </div>
         </div>
+        <a href="{{route('dashboard.orders.index')}}" class="btn btn-secondary d-block mx-auto mt-1" style="width:80%;">Cancel</a>
     </div>
 </div>
 
