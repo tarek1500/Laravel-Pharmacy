@@ -106,3 +106,10 @@
 @endif
 
 @endsection
+
+@section('script')
+     <!-- Select2 -->
+     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+     <!-- medicine creation form -->
+   <script src="{{ asset('js/medicine.js')}}"></script>
+@endsection

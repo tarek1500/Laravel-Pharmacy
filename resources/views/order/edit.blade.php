@@ -5,6 +5,27 @@
 
 <h2>Edit Order #{{$order->id}}</h2>
 <br>
+<div id="prescriptionsSlider" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    @if (count($order->prescriptions)>0)
+      @foreach ($order->prescriptions as $key=>$prescription)
+      <div class="carousel-item {{ $key==0 ? 'active' : ''}}">
+        <img src="/img.jpg" class="d-block  mx-auto img-fluid" alt="...">
+      </div>
+      @endforeach
+    </div>
+    <a class="carousel-control-prev" href="#prescriptionsSlider" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next " href="#prescriptionsSlider" role="button" data-slide="next">
+      <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+  @else
+  <h1 class="text-danger text-center">no prescriptions for this order</h1>
+@endif
 <form method="POST" action="{{route('dashboard.orders.update',['order'=>$order->id])}}">
 @csrf
 @method('PUT')
@@ -109,4 +130,10 @@
     </div>
 @endif
 
+@endsection
+@section('script')
+     <!-- Select2 -->
+     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+     <!-- medicine creation form -->
+   <script src="{{ asset('js/medicine.js')}}"></script>
 @endsection

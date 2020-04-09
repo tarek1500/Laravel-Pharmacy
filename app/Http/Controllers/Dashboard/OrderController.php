@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Medicine;
 use App\Order;
+use App\Prescription;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class OrderController extends Controller
 {
@@ -20,7 +22,25 @@ class OrderController extends Controller
      */
     public function index()
     {
+        $orders=[];
+        foreach(Order::all() as $order)
+        {
+            $orders[]=$order->completeOrder;
+        }
+        if(request()->ajax())
+        {
+            return DataTables::of($orders)->addColumn('action',function($order){
+              
+                $button = '<a type="button" name="show" href=" /dashboard/orders/'.$order['id'].'" id="'.$order['id'].'" class="btn btn-success" ><i class="fa fa-eye"></i></a>';
+                $button .= '<a type="button" name="edit" href=" /dashboard/orders/'.$order['id'].'/edit" id="'.$order['id'].'" class="btn btn-primary" ><i class="fas fa-edit"></i></a>';
+                $button .= '<button type="button" name="delete" onclick="deleteOrder('.$order['id'].')" id="'.$order['id'].'" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></button>';
+                    return $button;
+                
+            })->rawColumns(['action'])
+                 ->make(true);
+        }
         return view('order.index');
+
     }
 
     /**
@@ -103,9 +123,13 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('order.show',[
+                'order'=>Order::find($id),
+            ]
+           
+        );
     }
-
+   
     /**
      * Show the form for editing the specified resource.
      *
@@ -115,7 +139,6 @@ class OrderController extends Controller
     public function edit($id)
     {
         $order=Order::find($id);
-
         $users = User::all();
         $statuses=Order::$statuses;
         $medicines=[];
@@ -126,8 +149,6 @@ class OrderController extends Controller
         } else if (Auth::guard('doctor')->check()) {
             $medicines=Auth::user()->pharmacy->medicines;
         }
-        // dd($statuses);
-            
         return view('order.edit',[
             'users'=>$users,
             'statuses' =>$statuses,
@@ -173,7 +194,6 @@ class OrderController extends Controller
         }
         $order->update($order_params);
         return redirect(route('dashboard.orders.index'));
-
     }
 
     /**
@@ -184,6 +204,9 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $order= Order::find($id);
+        $order->medicines()->detach();
+        $order->prescriptions()->delete();
+        $order->delete();
     }
 }
