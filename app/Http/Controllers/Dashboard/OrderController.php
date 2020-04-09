@@ -31,7 +31,7 @@ class OrderController extends Controller
         {
             return DataTables::of($orders)->addColumn('action',function($order){
               
-                $button = '<a type="button" name="show" href=" /dashboard/orders/'.$order['id'].'" id="'.$order['id'].'" class="btn btn-success" ><i class="fa fa-eye"></i></a>';
+                $button = '<a type="button" name="show" href=" /dashboard/orders/'.$order['id'].'" id="'.$order['id'].'" class="btn btn-success"><i class="fa fa-eye"></i></a>';
                 $button .= '<a type="button" name="edit" href=" /dashboard/orders/'.$order['id'].'/edit" id="'.$order['id'].'" class="btn btn-primary" ><i class="fas fa-edit"></i></a>';
                 $button .= '<button type="button" name="delete" onclick="deleteOrder('.$order['id'].')" id="'.$order['id'].'" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></button>';
                     return $button;
