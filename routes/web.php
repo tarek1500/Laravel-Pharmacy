@@ -15,7 +15,6 @@ use App\Mail\MissuEmail;
 */
 
 Route::get('/', function () { return view ('welcome');})->name('home');
-
 Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dashboard.', "middleware"=>["auth:pharmacy,admin,doctor","emails.verified"]], function () {
 
 	Route::get('/', function () { return view('index'); })->name('index');
@@ -25,7 +24,7 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
 		Route::resource('users', 'UserController');
 		Route::resource('addresses', 'AddressController');
 		Route::resource('areas', 'AreaController');
-		Route::get('pharmacies/trash', 'PharmacyController@trash')->name('pharmacies.trash');
+		Route::get('pharmacies\trash', 'PharmacyController@trash')->name('pharmacies.trash');
 		Route::get('pharmacies/{pharmacy}/restore', 'PharmacyController@restore')->name('pharmacies.restore');
 
 	});
