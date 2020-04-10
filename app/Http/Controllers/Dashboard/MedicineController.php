@@ -55,7 +55,7 @@ class MedicineController extends Controller
     {
 		Medicine::create([
 			'name' => $request->name,
-			'address' => $request->address
+			'type' => $request->type
 		]);
 
 		return redirect()->route('dashboard.medicines.index');
@@ -98,7 +98,7 @@ class MedicineController extends Controller
     {
 		$medicine->update([
 			'name' => $request->name,
-			'address' => $request->address
+			'type' => $request->type
 		]);
 
 		return redirect()->route('dashboard.medicines.index');
