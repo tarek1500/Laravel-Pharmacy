@@ -99,6 +99,11 @@ class Pharmacy extends Authenticatable implements MustVerifyEmail
         $this->notify(new VerifyEmail);
     }
 
+    public function setPasswordAttribute($password)
+{
+    $this->attributes['password'] = \Hash::make($password);
+}
+
     public function orders()
     {
         return $this->hasMany('App\Order','pharamcy_id');

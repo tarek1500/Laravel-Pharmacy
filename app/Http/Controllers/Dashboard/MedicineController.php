@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Medicine;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class MedicineController extends Controller
 {
@@ -15,11 +16,23 @@ class MedicineController extends Controller
      */
     public function index()
     {
+		
 		$medicines = Medicine::all();
+		if(request()->ajax())
+        {
+            return DataTables::of($medicines)->addColumn('action',function($medicine){
+              
+                $button = '<a type="button" name="show" href=" /dashboard/medicines/'.$medicine->id.'" id="'.$medicine->id.'" class="btn btn-success"><i class="fa fa-eye"></i></a>';
+                $button .= '<a type="button" name="edit" href=" /dashboard/medicines/'.$medicine->id.'/edit" id="'.$medicine->id.'" class="btn btn-primary" ><i class="fas fa-edit"></i></a>';
+                $button .= '<button type="button" name="delete" onclick="deleteMedicine('.$medicine->id.')" id="'.$medicine->id.'" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></button>';
+                    return $button;
+                
+            })->rawColumns(['action'])
+                 ->make(true);
+        }
+        return view('medicines.index');
 
-		return view('medicines.index', [
-			'medicines' => $medicines
-		]);
+	
     }
 
     /**
@@ -99,8 +112,6 @@ class MedicineController extends Controller
 	 */
     public function destroy(Medicine $medicine)
     {
-		$medicine->delete();
-
-		return redirect()->route('dashboard.medicines.index');
+  		$medicine->delete();
     }
 }
