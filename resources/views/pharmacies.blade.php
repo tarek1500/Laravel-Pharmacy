@@ -8,7 +8,7 @@
      </div>
      <br />
    <div class="table-responsive">
-<table class="table table-bordered table-striped" id="pharmacy_table">
+<table style="width:100%" class="table table-bordered table-striped" id="pharmacy_table">
     <thead>
       <tr>
         <th scope="col">ID</th>
@@ -17,7 +17,7 @@
         <th scope="col">Email</th>
         <th scope="col">National_ID</th>
         <th scope="col">Priority</th>
-        <th  scope="col">Action</th>
+        <th  width="180">Action</th>
 
       </tr>
     </thead>

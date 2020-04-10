@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
+use Carbon\Carbon;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -87,5 +88,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $path=$image->store('images/avatars');
         $this->attributes['avatar_img']=$path;
+    }
+
+    public function setLastLoginDateAttribute($value)
+    {
+       $this->attributes['last_login_date']= Carbon::parse($value)->format('y-m-d 00:00:00');
     }
 }

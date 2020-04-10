@@ -16,19 +16,26 @@ class RevenueController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   $rev=array();
-        $pharmacies_total=0;
+    {   
+        $revenue=array();
+        $total=0;
+     
+        if (Auth::guard('pharmacy')->check()) {
+            $id=Auth::user()->id;
+            $pharmacies = Pharmacy::where('id',$id)->get();
+         }
+         
+        if (Auth::guard('admin')->check()) {
         $pharmacies = Pharmacy::all();
-        $myTotal=0;
+        }
+
         foreach($pharmacies as $pharmacy)
             {
                 $orders=Order::where('pharamcy_id',$pharmacy->id)->get();
                 $TotalOrders=$orders->count();
                 $TotalRevenue=$orders->sum('total_price');
-                if(Auth::id()==$pharmacy->id)
-                    $myTotal=$TotalRevenue;
-                $pharmacies_total=$pharmacies_total+$TotalRevenue;
-                array_push($rev,
+                $total=$total+$TotalRevenue;
+                array_push($revenue,
                 [  'avatar_image'=> $pharmacy->avatar_image,
                     'name'=> $pharmacy->name,
                     'TotalRevenue'=> $TotalRevenue,
@@ -36,14 +43,16 @@ class RevenueController extends Controller
                 ]);
             
             }
+        
         if(request()->ajax())
         {
-            return datatables()->of($rev)->make(true);
+            return datatables()->of($revenue)->make(true);
         }
 
         return view('revenues',[
-            'pharmacies_total' => $pharmacies_total,
-            'myTotal'=>$myTotal,
+            'total' => $total,
         ]);
     }
+
+
 }
