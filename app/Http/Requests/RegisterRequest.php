@@ -28,7 +28,7 @@ class RegisterRequest extends FormRequest
 			'name' => ['required', 'string', 'max:255'],
 			'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
 			'password' => ['required', 'string', 'min:8', 'confirmed'],
-			'gender' => ['required', Rule::in(['m', 'f'])],
+			'gender' => ['required', 'in:m,f'],
 			'date_of_birth' => ['date'],
 			'avatar_img' => ['image', 'max:5120', 'mimes:jpeg,bmp,png'],
 			'mobile_number' => ['required', 'size:11'],

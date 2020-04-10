@@ -90,7 +90,7 @@
   </div>
   <div class="form-group px-5">
     <label for="exampleFormControlInput1">Statues</label>
-    <select name="status_id"  class="form-control" >
+    <select id="status-select" name="status_id"  class="form-control" >
       
       @foreach ($statuses as $key =>$value)
         @if($key>= $order->status_id)
@@ -101,7 +101,20 @@
     </select>
   </div>
 
+@if ($order->status_id == 0 || $order->status_id == 1)
+	<div class="form-group px-5">
+		<label for="">Card holder</label>
+		<input type="text" id="card-holder-name" class="form-control">
+	</div>
+	<div class="form-group px-5">
+		<div id="card-element"></div>
+	</div>
+@endif
+
   <div class="form-group text-center">
+    @if ($order->status_id == 0 || $order->status_id == 1)
+      <button id="card-button" class="btn btn-info d-block mx-auto mb-1" style="width:80%;" data-secret="{{ $intent->client_secret }}">Charge</button>
+    @endif
     <button type="submit" class="btn btn-success d-block mx-auto" style="width:80%;">Save</button>
     <a href="{{route('dashboard.orders.index')}}" class="btn btn-secondary d-block mx-auto mt-1" style="width:80%;">Cancel</a>
   </div>
@@ -138,10 +151,70 @@
     </div>
 @endif
 
+<div id="transaction-alert" class="d-none alert alert-info">
+	<ul>
+		<li>Transaction is successed</li>
+	</ul>
+</div>
+
 @endsection
 @section('script')
      <!-- Select2 -->
      <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
      <!-- medicine creation form -->
    <script src="{{ asset('js/medicine.js')}}"></script>
+
+	<script src="https://js.stripe.com/v3/"></script>
+	<script>
+		window.addEventListener('load', function() {
+			if (document.querySelector('#card-element')) {
+				const stripe = Stripe('{{ env('STRIPE_KEY') }}');
+
+				const elements = stripe.elements();
+				const cardElement = elements.create('card');
+				cardElement.mount('#card-element');
+
+				const cardHolderName = document.getElementById('card-holder-name');
+				const cardButton = document.getElementById('card-button');
+				const clientSecret = cardButton.dataset.secret;
+
+				cardButton.addEventListener('click', async (e) => {
+					e.preventDefault();
+					const totalPrice = document.querySelector('#totalPrice');
+					const amount = +totalPrice.innerText.slice(0, -2);
+
+					if (amount > 0) {
+						const { setupIntent, error } = await stripe.confirmCardSetup(clientSecret, {
+							payment_method: {
+								card: cardElement,
+								billing_details: { name: cardHolderName.value }
+							}
+						});
+
+						if (error) { }
+						else {
+							fetch('{{ route('dashboard.payment.charge') }}', {
+								headers: {
+									'Content-Type': 'application/json',
+									'X-CSRF-TOKEN': '{{ csrf_token() }}'
+								},
+								method: 'POST',
+								body: JSON.stringify({
+									payment_method: setupIntent.payment_method,
+									amount: amount,
+									name: '{{ $order->user->name }}'
+								})
+							}).then(function (result) {
+								document.querySelector('#transaction-alert').classList.remove('d-none');
+								document.querySelector('#status-select').value = 4;
+								let chargeButton = document.querySelector('#card-button')
+								chargeButton.innerHTML = 'Paid';
+								chargeButton.disabled = true;
+							}).catch(function (error) {});
+						}
+					}
+				});
+			}
+		});
+	</script>
 @endsection

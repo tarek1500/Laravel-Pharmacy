@@ -16,4 +16,8 @@ class Prescription extends Model
     {
         return $this->belongsTo('App\Order');
     }
+
+    public function getImageAttribute($value){
+        return $value ? Storage::url($value) : null;
+    }
 }

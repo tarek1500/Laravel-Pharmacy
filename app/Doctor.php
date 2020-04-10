@@ -7,12 +7,13 @@ use App\Notifications\Doctor\Auth\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
 class Doctor extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable;
-    use HasRoles;
+	use Notifiable, HasRoles, Billable;
+
     /**
      * The attributes that are mass assignable.
      *

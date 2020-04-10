@@ -62,7 +62,7 @@ class PharmacyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(PharmacyRequest $request)
-    {   $new_name;
+    {   
         if($request->hasFile('avatar_image')){
             $image = $request->file('avatar_image');
             $new_name = rand() . '.' . $image->getClientOriginalExtension();
