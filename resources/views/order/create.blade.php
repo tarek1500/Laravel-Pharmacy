@@ -22,9 +22,9 @@
       <div class="col-4 medicineNameContainer">
         <label for="exampleFormControlInput1">Medicine Name</label>
         <select name="med_name[]" class="form-control mb-4 medicineNameSelect">
-          @foreach ($medicines as $medicine)
-          <option ></option>
-           <option value="{{$medicine->name}}">{{$medicine->name}}</option>
+          <option value=""></option>
+          @foreach ($medicines_unique_names as $medicines_unique_name)
+          <option value="{{$medicines_unique_name->name}}">{{$medicines_unique_name->name}}</option>
           @endforeach
         </select>
       </div>
@@ -32,9 +32,9 @@
         <label for="">Medicine Type</label>
         <select name="med_type[]"  class="form-control mb-4 medicineTypeSelect">
           <option ></option>
-          @foreach ($medicines as $medicine)
-           <option value="{{$medicine->type}}">{{$medicine->type}}</option>
-          @endforeach
+          @foreach ($medicines_unique_types as $medicines_unique_type)
+          <option value="{{$medicines_unique_type->type}}">{{$medicines_unique_type->type}}</option>
+         @endforeach
         </select>
       </div>
       <div class="col-2 medQuanityContainer">
@@ -83,15 +83,15 @@
 
 <select name="med_name[]" class="form-control mb-4 medData d-none">
   <option ></option>
-  @foreach ($medicines as $medicine)
-   <option value="{{$medicine->name}}">{{$medicine->name}}</option>
+  @foreach ($medicines_unique_names as $medicines_unique_name)
+   <option value="{{$medicines_unique_name->name}}">{{$medicines_unique_name->name}}</option>
   @endforeach
 </select>
 
 <select name="med_type[]" class="form-control mb-4 typeData d-none">
   <option ></option>
-  @foreach ($medicines as $medicine)
-   <option value="{{$medicine->type}}">{{$medicine->type}}</option>
+  @foreach ($medicines_unique_types as $medicines_unique_type)
+   <option value="{{$medicines_unique_type->type}}">{{$medicines_unique_type->type}}</option>
   @endforeach
 </select>
 

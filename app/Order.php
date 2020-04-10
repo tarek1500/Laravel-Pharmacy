@@ -112,8 +112,6 @@ class Order extends Model
         $order['is_insured']= $this->is_insured ? 'yes':'no';
         $order['created_at']=$this->created_at->format('d M Y');
         $order['updated_at']=$this->updated_at->format('d M Y');
-        //Building Number, Street Name, Neighborhood, City
-        //flat:3,floor:,2,street st,areaname,areaaddress
         $order['delivering_address']='flat:'.$this->address->flat_number .',' 
                                     .'floor:'.$this->address->floor_number .',' 
                                     . $this->address->building_number
