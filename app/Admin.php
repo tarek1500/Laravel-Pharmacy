@@ -6,12 +6,13 @@ use App\Notifications\Admin\Auth\ResetPassword;
 use App\Notifications\Admin\Auth\VerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends Authenticatable 
 {
-    use Notifiable;
-    use HasRoles;
+    use Notifiable, HasRoles, Billable;
+
     /**
      * The attributes that are mass assignable.
      *
