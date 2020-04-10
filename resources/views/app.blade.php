@@ -97,10 +97,16 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            @if (Auth::guard('pharmacy')->check())
+              <img src="/images/pharmacy_avatar/{{Auth::user()->avatar_image}}" class="img-circle elevation-2" alt="User Image">
+            @elseif (Auth::guard('doctor')->check())
+              <img src="src="{{ asset('/images/doctors/' . Auth::user()->avatar_image ) }} class="img-circle elevation-2" alt="User Image">
+            @else
+              <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            @endif
           </div>
           <div class="info">
-            <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">{{Auth::user()->name ? Auth::user()->name : 'Admin'}}</a>
           </div>
         </div>
 

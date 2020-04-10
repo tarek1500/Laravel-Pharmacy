@@ -1,6 +1,6 @@
 {{-- {{ $medicines }} --}}
 @extends('app')
-@section('title', 'Orders')
+@section('title', 'Medicines')
 @section('content')
     <div class="container">
         <table id="medicines_table">
