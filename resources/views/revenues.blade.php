@@ -1,16 +1,17 @@
 @extends('app')
 @section('title', 'Revenues')
-
 @section('content')
+@role('admin')
 <div class="container">    
 <div class="card text-center bg-success p-0">
   <div class="card-body p-2">
-    <h3>Pharmacies Total Revenue is {{$pharmacies_total}}</h3>
+    <h3>Total Revenue is {{$total}}</h3>
   </div>
 </div>
+
 <div class="table-responsive">
 
-<table class="table table-bordered table-striped" id="revenue_table">
+<table  style="width:100%" class="table table-bordered " id="revenue_table">
   <thead>
     <tr>
       <th scope="col">PharmacyAvatar</th>
@@ -31,6 +32,7 @@ $(document).ready(function(){
  $('#revenue_table').DataTable({
   processing: true,
   serverSide: true,
+  "dom": '<"top"if>rt<"bottom"lp><"clear">',
   ajax:'{{ route('dashboard.revenue.index') }}',
   
                columns: [
@@ -45,5 +47,27 @@ $(document).ready(function(){
             });
          });
   </script>
-        
+@endrole
+@role('pharmacy','pharmacy')
+<div class="revenue-card" >
+<div class="container ">
+  <div class="row">
+    <div class="col-12 col-sm-8 col-md-6 ">
+      <div class="card text-center">
+        <div class="card-header text-center border-bottom-0 bg-transparent text-success pt-4">
+          <h5>Your pharmacy revenue</h5>
+        </div>
+        <div class="card-body">
+          <h1>${{$myTotal}}</h1>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><i class="fas fa-male text-success mx-2"></i>Keep the good work up</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+@endrole
 @endsection
+

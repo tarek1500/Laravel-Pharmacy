@@ -5,6 +5,7 @@
 <h2 class="float-left">Doctors Section</h2>
 <a class="btn btn-success float-right mr-5" href="{{route('dashboard.doctors.create')}}">Add New Doctor</a>
 
+
 <div class="container">
     <div class="table-responsive">
         <table id="doctor_table" class="table table-striped">
@@ -12,7 +13,9 @@
             <tr>
                 <th scope="col">Doctor's ID</th>
                 <th scope="col">Image</th>
+                @role('admin')
                 <th scope="col">Doctor's Branch</th>
+                @endrole
                 <th width="10%" scope="col">Action</th>
             </tr>
             </thead>
