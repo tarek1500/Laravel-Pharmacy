@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Events\OrderConfirmed;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
@@ -233,6 +234,7 @@ class OrderController extends Controller
 
                 $order_params['total_price'] += $request['med_price'][$i]*100 * $request['med_quantity'][$i];
             }
+            if($order->status_id ==1 && $order_params['status_id']==2 ) event(new OrderConfirmed($order)); 
             $order->update($order_params);
         }
         return redirect(route('dashboard.orders.index'));
