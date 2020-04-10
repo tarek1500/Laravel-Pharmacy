@@ -15,7 +15,6 @@
     </div>
 @endif
 
-@if(Auth::guard('admin')->check())
         <div class="mb-3">
             <label for="state">User</label>
             <select name="user_id" class="custom-select d-block w-100" id="user">
@@ -24,11 +23,7 @@
               @endforeach
             </select>
           </div>
-    @endif   
     
-    @if(Auth::guard('user')->check())
-    <input type="hidden" id="user_id" name ="user_id" value="{{$id}}">
-    @endif 
 
         <div class="mb-3">
             <label for="state">Area</label>
