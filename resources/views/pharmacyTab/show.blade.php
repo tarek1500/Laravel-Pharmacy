@@ -19,7 +19,7 @@
       <p>{{$pharmacy->area->name}}</p>
        <p><i class="fa fa-calendar"></i> created_at {{$pharmacy->created_at->format('d M Y')}}</p>
         <p><i class="fa fa-calendar"></i> updated_at {{$pharmacy->updated_at->format('d M Y')}}</p>    </div>
-        <a href="{{route('dashboard.pharmacies.edit',['pharmacy'=>$pharmacy->id])}}" class="btn btn-success">Edit Profile</a>
+        <a href="{{route('dashboard.pharmacies.edit',['pharmacy'=>$pharmacy->id])}}" class="btn btn-success">Edit Pharmacy</a>
   </div>
 
 

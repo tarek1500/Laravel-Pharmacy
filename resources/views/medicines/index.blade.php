@@ -1,7 +1,12 @@
 {{-- {{ $medicines }} --}}
 @extends('app')
-@section('title', 'Orders')
+@section('title', 'Medicines')
 @section('content')
+<div class="container">
+	<h2 class="float-left text-secondary">Medicines index page</h2>
+	<a href="{{route('dashboard.medicines.create')}}" class="btn btn-success btn-lg float-right mr-5"> Create a new medicine
+	</a>
+</div>
     <div class="container">
         <table id="medicines_table">
             <thead>
@@ -34,7 +39,6 @@
     @section('script')
         <script>
             $(document).ready(function(){
-                $('#medicines_table_wrapper').removeClass('form-inline')
 
 $('#medicines_table').DataTable({
  processing: true,

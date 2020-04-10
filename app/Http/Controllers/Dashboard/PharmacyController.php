@@ -199,6 +199,5 @@ public function restore($id)
     Pharmacy::withTrashed()
     ->where('id',$id)
     ->restore();
-    dd("yes");
    }
 }

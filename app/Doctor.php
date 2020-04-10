@@ -28,7 +28,7 @@ class Doctor extends Authenticatable implements MustVerifyEmail
         'avatar_image',
         'is_baned',
         'pharmacy_id',
-        
+
     ];
 
     /**
@@ -65,6 +65,29 @@ class Doctor extends Authenticatable implements MustVerifyEmail
      *
      * @return void
      */
+
+
+    public function getCompleteDoctorAttribute()
+    {
+        $doctor['id']=$this->id;
+        $doctor['name']=$this->name;
+        $doctor['email']=$this->email;
+        $doctor['password']=$this->password;
+        $doctor['national_id']=$this->national_id;
+        $doctor['avatar_image']=$this->avatar_image;
+        $doctor['is_baned']=$this->is_baned;
+        $doctor['pharmacy_id']=$this->pharmacy->name;
+        $doctor['created_at']=$this->created_at;
+        $doctor['updated_at']=$this->updated_at;
+        $doctor['email_verified_at']=$this->email_verified_at;
+        $doctor['remember_token']=$this->remember_token;
+
+        // if(Auth::guard('admin')->check())
+
+        return $doctor;
+    }
+
+
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail);

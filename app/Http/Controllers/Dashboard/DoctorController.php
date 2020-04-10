@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Doctor;
 use App\Pharmacy;
+use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\DataTables;
+
 
 class DoctorController extends Controller
 {
@@ -14,12 +17,43 @@ class DoctorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $doctors =  Doctor::all();
-        return view('doctor/index',[
-            "doctors" => $doctors
-        ]);
+
+
+        $alldoctors=Doctor::all();
+        $doctors = [];
+
+        foreach($alldoctors as $doctor)
+        {
+            $doctors[]=$doctor->getCompleteDoctorAttribute();
+        }
+
+        if($request->ajax()){
+            // $data = Doctor::latest()->get();
+            return DataTables::of($doctors)
+                ->addColumn('action' , function($doctors){
+                    $button = '<a type="button" name="edit" href=" /dashboard/doctors/'.$doctors['id'].'/edit" id="'.$doctors['id'].'" class="btn mx-2 btn-primary" ><i class="fas fa-edit"></i></a>';
+                    $button .= '<button type="button" name="delete"  onclick="deleteDoctor('.$doctors['id'].')" id="'.$doctors['id'].'" class="btn mx-2 btn-danger" ><i class="fas fa-trash-alt"></i></button>';
+
+                    return $button;
+                })
+                ->addColumn('is_baned' , function($doctors){
+
+                    if($doctors['is_baned']){
+                    $ban = '<button type="button" name="unban" value = "0" id = "unban" onclick="banDoctor('.$doctors['id'].')" id="'.$doctors['id'].'" class="btn mx-auto btn-success" >UnBan</button>';
+                    }else{
+                        $ban = '<button type="button" name="ban" id = "ban"  value = "1"  onclick="banDoctor('.$doctors['id'].')" id="'.$doctors['id'].'" class="btn mx-auto btn-danger" >Ban</button>';
+                    }
+
+                    return $ban;
+                })
+                ->rawColumns(['action', 'is_baned'])
+                ->make(true);
+        }
+
+        return view('doctor/index');
+
     }
 
     /**
@@ -66,7 +100,7 @@ class DoctorController extends Controller
         $doctor=Doctor::create([
             'name' => $request->name,
             'email'=> $request->email,
-            'password' => $request->password,
+            'password' =>  Hash::make( $request->password),
             'national_id' => $request->national_id,
             'pharmacy_id'=> $pharmacyId
         ]);
@@ -99,7 +133,6 @@ class DoctorController extends Controller
         $doctor = Doctor::find($id);
         $pharmacies = Pharmacy::all();
 
-
         return view('doctor/edit',[
             "pharmacies" => $pharmacies,
             "doctor" => $doctor
@@ -115,6 +148,10 @@ class DoctorController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        if($request->ajax()){
+            
+        }
 
         $doctor = Doctor::find($id);
         $pharmacyName = $request->pharmacy_name;
@@ -155,7 +192,6 @@ class DoctorController extends Controller
     {
         $doctor = Doctor::find($id);
         $doctor->delete();
-        return redirect()->back();
     }
 }
 
