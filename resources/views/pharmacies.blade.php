@@ -5,6 +5,8 @@
 <div class="container">    
      <div align="left">
      <a class="btn btn-success" href="{{route('dashboard.pharmacies.create')}}"name="create_record" id="create_record"><i class="far fa-plus-square"></i> Add new Pharmacy</a> 
+     <a class="btn btn-danger" href="{{route('dashboard.pharmacies.trash')}}"name="Trash" id="Trash"><i class="fas fa-trash-alt"></i>  Trash</a> 
+
      </div>
      <br />
    <div class="table-responsive">

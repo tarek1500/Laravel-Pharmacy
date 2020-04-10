@@ -10,6 +10,8 @@ use App\Area;
 use App\Order;
 use App\MedicinePharmacy;
 use App\Doctor;
+use Illuminate\Support\Facades\Auth;
+
 
 class PharmacyController extends Controller
 {
@@ -21,12 +23,6 @@ class PharmacyController extends Controller
     public function index()
     {  
         
-       if (Auth::guard('pharmacy')->check()) {
-            $id=Auth::user()->id;
-            show($id);
-       } 
-
-       else if (Auth::guard('admin')->check()) {
         $pharmacies = Pharmacy::all();
         if(request()->ajax())
         {
@@ -43,7 +39,7 @@ class PharmacyController extends Controller
         }
  
         return view('pharmacies');
-       }
+      
     }
 
     /**
@@ -178,5 +174,31 @@ class PharmacyController extends Controller
         {return response()->json(['errors' => 'cant delete pharmacy have orders.']);}
     
 }
+public function trash()
+{  
 
+    $pharmacies = Pharmacy::onlyTrashed()->get();;
+    if(request()->ajax())
+    {
+        
+        return datatables()->of($pharmacies)->addColumn('restore', function($data){
+            $button = '<button type="button" name="delete" onclick="retrivePharmacy('.$data->id.')" id="'.$data->id.'" class="btn btn-success" ><i class="fa fa-recycle" aria-hidden="true"></i></button>';
+            
+            return $button;
+        })
+        ->rawColumns(['restore'])
+        ->make(true);
+    }
+
+    return view('pharmacyTab.trash');
+   }
+
+public function restore($id)
+   {  
+
+    Pharmacy::withTrashed()
+    ->where('id',$id)
+    ->restore();
+    dd("yes");
+   }
 }
