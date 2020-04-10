@@ -39,7 +39,7 @@ $(document).ready(function(){
                         { data: 'id', name: 'id' },
                         { data: 'avatar_image', name: 'avatar_image' ,
                           render: function(data, type, full, meta){
-                           return "<img src=/images/pharmacy_avatar/" + data + " alt='avatar' height='42' width='42' />";}},
+                           return "<img src=" + data + " alt='avatar' height='42' width='42' />";}},
                         { data: 'name', name: 'name' },
                         { data: 'email', name: 'email' },
                         { data: 'national_id', name: 'national_id' },

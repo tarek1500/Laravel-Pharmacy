@@ -7,7 +7,7 @@
   <div class="card" style="width:80%">
   <h2 align="center">{{$pharmacy->name}} Pharmacy</h2>
 
-    <img class="card-img-top" src="/images/pharmacy_avatar/{{$pharmacy->avatar_image}}" alt="Card image" style="width:100%">
+    <img class="card-img-top" src="{{$pharmacy->avatar_image}}" alt="Card image" style="width:100%">
     <div class="card-body">
       <label for="email">Email: </label>
       <p>{{$pharmacy->email}}</p>

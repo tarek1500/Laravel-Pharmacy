@@ -25,7 +25,7 @@
         @foreach($doctors as $doctor)
         <tr>
             <th scope="row">{{$doctor->id}}</th>
-            <td><img width="50 px" height="50 px" src="{{ asset('/images/doctors/' . $doctor->avatar_image ) }}"></td>
+            <td><img width="50 px" height="50 px" src="{{ $doctor->avatar_image  }}"></td>
             <td>{{$doctor->name}}</td>
             @role('admin')
             <td>{{$doctor->pharmacy_id ? $doctor->Pharmacy->name : "NotExist" }}</td>

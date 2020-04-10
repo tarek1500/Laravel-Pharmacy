@@ -63,24 +63,26 @@ class PharmacyController extends Controller
      */
     public function store(PharmacyRequest $request)
     {   
-        if($request->hasFile('avatar_image')){
+        if(request()->hasFile('avatar_image')){
             $image = $request->file('avatar_image');
-            $new_name = rand() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('/images/pharmacy_avatar/'), $new_name);
-            }
-        else
-        {$new_name="default.jpg";}
-               $pharmacy= Pharmacy::create([
+        }else{
+            return $request;
+            $image=null;
+        }
+
+        $pharmacy= Pharmacy::create([
                     'name' => $request->name,
                     'email'=> $request->email,
                     'password' => $request->password,
                     'national_id' => $request->national_id,
-                    'avatar_image' => $new_name,
+                    'avatar' => $image,
                     'priority'=> $request->priority,
                     'area_id'=> $request->area_id,
                 ]);
+                $pharmacy->avatar=$image;
                 $pharmacy->assignRole("pharmacy","pharmacy");
                 $pharmacy->assignRole("doctor","pharmacy");
+                $pharmacy->save();
                 return redirect()->route('dashboard.pharmacies.index');  
       
 
@@ -136,15 +138,13 @@ class PharmacyController extends Controller
     { 
         $pharmacy = Pharmacy::find($id);
         if($request->hasFile('avatar_image')){
-            $image = $request->file('avatar_image');
-            $new_name = rand() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('/images/pharmacy_avatar/'), $new_name);
+           $image = $request->file('avatar_image');
+            $pharmacy->avatar =$image;
             $pharmacy->update(
                 ['name' => $request->name,
                 'email'=> $request->email,
                 'password' => $request->password,
                 'national_id' => $request->national_id,
-                'avatar_image' => $new_name,
                 'priority'=> $request->priority,
                 'area_id'=> $request->area_id,]
             );

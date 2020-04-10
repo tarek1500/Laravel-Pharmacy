@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Cashier\Billable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Pharmacy extends Authenticatable implements MustVerifyEmail
 {
@@ -106,5 +107,26 @@ class Pharmacy extends Authenticatable implements MustVerifyEmail
     public function orders()
     {
         return $this->hasMany('App\Order','pharamcy_id');
+    }
+
+    
+    public function setAvatarAttribute($image){
+        if($image){
+            if(isset($this->attributes['avatar_image']))
+                Storage::delete($this->avatar_image);
+
+            $path=$image->store('public/images/avatars');
+            $this->attributes['avatar_image']=$path;
+        }
+
+        else
+            $this->attributes['avatar_image']='public/avatars/default.jpeg';
+    }
+
+    public function getAvatarImageAttribute(){
+        if(isset($this->attributes['avatar_image'])){   
+            return Storage::url($this->attributes['avatar_image']); 
+        }   
+        return "";
     }
 }

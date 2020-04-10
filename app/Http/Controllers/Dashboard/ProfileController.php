@@ -17,7 +17,7 @@ class ProfileController extends Controller
        $user = $this->getCurrentUser();
         if($user){
             return view("profile.edit",[
-                "user" => $user['user'],
+                "user" => $user,
                 ]);
         }
 
@@ -28,17 +28,18 @@ class ProfileController extends Controller
     {
         $request->validate([
             'name' => 'required|min:6',
-            'avatar_image'=> 'sometimes|file|mimes:jpeg,jpg',
+            'avatar_image'=> 'sometimes|file|mimes:jpeg,jpg,png',
         ]);
         
         $user=$this->getCurrentUser();
       
         if($user){
-            
-            if($request->hasFile('avatar_img'))
-                $this->updateAvatar($request->file('avatar_img'),$user);
-            
-            $user=$user['user'];
+
+            if($request->hasFile('avatar_image')){
+                $user->avatar=$request->file('avatar_image');
+            }
+
+
             $user->name = $request->name;
             $user->save(); 
             return redirect()->route('dashboard.index');    
@@ -50,25 +51,10 @@ class ProfileController extends Controller
     private function getCurrentUser(){
         $user=null;
         if (Auth::guard('pharmacy')->check())
-            $user=["user"=>Pharmacy::find(Auth::id()),"type"=>"pharmacy"];
+            $user=Pharmacy::find(Auth::id());
         else if (Auth::guard('doctor')->check())
-            $user=["user"=>Doctor::find(Auth::id()),"type"=>"doctor"];
+           $user=Doctor::find(Auth::id());
         return $user;
-    }
-
-    private function updateAvatar($image,$user){
-        $new_name = rand() . '.' . $image->getClientOriginalExtension();
-       
-        if($user['type']=='pharmacy'){
-            Storage::delete('images/pharmacy_avatar'.$user->avatar_img); 
-            $image->move(public_path('/images/pharmacy_avatar/'), $new_name);
-        }
-        else {
-            Storage::delete('images/doctors'.$user->avatar_img);
-            $image->move(public_path('/images/doctors/'), $new_name);
-        }
-
-        $user['user']->avatar_img = $new_name;    
     }
 
 

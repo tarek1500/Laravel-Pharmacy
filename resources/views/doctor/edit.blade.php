@@ -63,7 +63,7 @@
 {{-- image section --}}
       <div class="form-group px-5">
         <label for="avatar_image">Doctor's Image</label>
-        <input name="avatar_image" type="file" value="<img width="50 px" height="50 px" src="{{ asset('/images/doctors/' . $doctor->avatar_image ) }}" class="form-control-file" id="image">
+        <input name="avatar_image" type="file" value="<img width="50 px" height="50 px" src="{{  $doctor->avatar_image  }}" class="form-control-file" id="image">
       </div>
 
       @error('image')

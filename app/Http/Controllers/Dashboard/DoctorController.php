@@ -56,13 +56,10 @@ class DoctorController extends Controller
         ]);
 
         if(request()->hasFile('avatar_image')){
-            $file = $request->file('avatar_image');
-            $extension = $file->getClientOriginalExtension();
-            $fileName = time() . '.' . $extension;
-            $file->move('images/doctors/' , $fileName);
+            $image = $request->file('avatar_image');
         }else{
             return $request;
-            $fileName='';
+            $image=null;
         }
 
 
@@ -71,11 +68,11 @@ class DoctorController extends Controller
             'email'=> $request->email,
             'password' => $request->password,
             'national_id' => $request->national_id,
-            'avatar_image' => $fileName,
             'pharmacy_id'=> $pharmacyId
         ]);
+        $doctor->avatar=$image;
         $doctor->assignRole("doctor","doctor");
-
+        $doctor->save();
         return redirect('dashboard/doctors');
     }
 
@@ -129,19 +126,12 @@ class DoctorController extends Controller
             'email'=> 'required',
             'password' => 'required | min:6',
             'national_id' => 'required | min:14 | max:14',
-            // 'avatar_image' => 'required'
             ]);
 
 
             if(request()->hasFile('avatar_image')){
-                $file = $request->file('avatar_image');
-                $extension = $file->getClientOriginalExtension();
-                $fileName = time() . '.' . $extension;
-                $file->move('images/doctors/' , $fileName);
-            }else{
-                $fileName = $doctor->avatar_image;
+                $doctor->avatar= $request->file('avatar_image');
             }
-
 
 
             $doctor->update([
@@ -149,7 +139,6 @@ class DoctorController extends Controller
                 'email'=> $request->email,
                 'password' => $request->password,
                 'national_id' => $request->national_id,
-                'avatar_image' => $fileName,
                 'pharmacy_id'=> $pharmacyId,
                 ]);
 

@@ -25,16 +25,7 @@
 {{-- image section --}}
       <div class="form-group px-5">
         <label for="avatar_image">Image</label>
-        <input name="avatar_image" type="file" value="<img width="50 px" height="50 px" 
-        @role("doctor","doctor")
-        src="{{ asset('/images/doctors/' . $user->avatar_image ) }}" 
-        @else 
-            @role('pharmacy','pharmacy')
-            src="{{ asset('/images/pharmacy_avatar/' . $user->avatar_image ) }}" 
-            @endrole
-        @endrole
-        
-        class="form-control-file" id="image">
+        <input name="avatar_image" type="file" value="<img width="50 px" height="50 px" class="form-control-file" id="image">
       </div>
 
       @error('image')

@@ -45,7 +45,7 @@
         <div class="mb-3">
           <label for="avatar">Avatar</label>
 		  <br>
-		  <img src="/images/pharmacy_avatar/{{$pharmacy->avatar_image}}" alt="avatar" height="42" width="42"/>
+		  <img src="{{$pharmacy->avatar_image}}" alt="avatar" height="42" width="42"/>
           <br>
 		  <div class="input-group">
           <input type="file"  value="" name="avatar_image" >
