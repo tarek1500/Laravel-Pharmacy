@@ -54,10 +54,7 @@ class AssignOrders extends Command
                     $order->pharamcy_id=$pharmacy->id;
                     $order->status_id=1; //Processing
                 }
-                else
-                {
-                    $order->status_id=3;//cancel
-                }
+                
                 $order->save();
             }
         }
