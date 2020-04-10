@@ -39,12 +39,11 @@ class OrderController extends Controller
         if(request()->ajax())
         {
             return DataTables::of($orders)->addColumn('action',function($order){
-              
                 $button = '<a type="button" name="show" href=" /dashboard/orders/'.$order['id'].'" id="'.$order['id'].'" class="btn btn-success"><i class="fa fa-eye"></i></a>';
                 $button .= '<a type="button" name="edit" href=" /dashboard/orders/'.$order['id'].'/edit" id="'.$order['id'].'" class="btn btn-primary" ><i class="fas fa-edit"></i></a>';
                 $button .= '<button type="button" name="delete" onclick="deleteOrder('.$order['id'].')" id="'.$order['id'].'" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></button>';
                     return $button;
-                
+
             })->rawColumns(['action'])
                  ->make(true);
         }
@@ -72,7 +71,7 @@ class OrderController extends Controller
         }
         $medicines_unique_names=$medicines->unique('name');
         $medicines_unique_types=$medicines->unique('type');
-            
+
         return view('order.create',[
             'users'=>$users,
             'statuses' =>$statuses,
@@ -114,11 +113,11 @@ class OrderController extends Controller
         for ($i = 0; $i < count($request['med_name']); $i++) {
             $name = $request['med_name'][$i];
             $type = $request['med_type'][$i];
-            if (!$medicine=Medicine::where(['name' => $name, 'type' => $type])->get()->first()) 
+            if (!$medicine=Medicine::where(['name' => $name, 'type' => $type])->get()->first())
                 $medicine = Medicine::create(['name' => $name, 'type' => $type]);
 
             $medicine->orders()->attach($order, ['quantity' => $request['med_quantity'][$i], 'price' => $request['med_price'][$i]*100]);
-            if(!Auth::guard('admin')->check()) 
+            if(!Auth::guard('admin')->check())
                 $medicine->pharmacies()->attach($pharmacy);
 
             $total_price += $request['med_price'][$i]*100 * $request['med_quantity'][$i];
@@ -138,10 +137,10 @@ class OrderController extends Controller
         return view('order.show',[
                 'order'=>Order::find($id),
             ]
-           
+
         );
     }
-   
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -178,21 +177,21 @@ class OrderController extends Controller
             'order'=>$order,
 			'intent' => $user->createSetupIntent()
         ]);
-       
+
     }
 
     private function validateUpdateOrderToLoggedUser($order)
     {
         if(Auth::guard('pharmacy')->check())
         {
-            if( !isset($order->pharmacy)) 
+            if( !isset($order->pharmacy))
                  return abort(404);
             if( Auth::user()->id != $order->pharmacy->id)
                  return abort(404);
         }
         if(Auth::guard('doctor')->check())
         {
-            if( !isset($order->pharmacy)) 
+            if( !isset($order->pharmacy))
                  return abort(404);
             if( Auth::user()->pharmacy->id != $order->pharmacy->id)
                  return abort(404);
@@ -218,7 +217,7 @@ class OrderController extends Controller
         {
             $order_params= $request->only([
                 'is_insured',
-                'status_id' 
+                'status_id'
             ]);
             !isset($request['is_insured'])? $order_params['is_insured']=0:'';
             $order->medicines()->detach();
@@ -226,13 +225,13 @@ class OrderController extends Controller
             for ($i = 0; $i < count($request['med_name']); $i++) {
                 $name = $request['med_name'][$i];
                 $type = $request['med_type'][$i];
-                if (!$medicine=Medicine::where(['name' => $name, 'type' => $type])->get()->first()) 
+                if (!$medicine=Medicine::where(['name' => $name, 'type' => $type])->get()->first())
                     $medicine = Medicine::create(['name' => $name, 'type' => $type]);
-    
+
                 $medicine->orders()->attach($order, ['quantity' => $request['med_quantity'][$i], 'price' => $request['med_price'][$i]*100]);
-                if(!Auth::guard('admin')->check()) 
+                if(!Auth::guard('admin')->check())
                     $medicine->pharmacies()->attach($order->pharmacy);
-    
+
                 $order_params['total_price'] += $request['med_price'][$i]*100 * $request['med_quantity'][$i];
             }
             if($order->status_id ==1 && $order_params['status_id']==2 ) event(new OrderConfirmed($order)); 
