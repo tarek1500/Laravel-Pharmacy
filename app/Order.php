@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class Order extends Model
@@ -74,7 +75,8 @@ class Order extends Model
     public function getPharmacyAttribute()
     {
         $pharmacy= Pharmacy::find($this->pharamcy_id);   
-        $pharmacy['address']=$pharmacy->area->name.", ".$pharmacy->area->address;
+        if($pharmacy)
+            $pharmacy['address']=$pharmacy->area->name.", ".$pharmacy->area->address;
         return $pharmacy;
     }
 
@@ -100,4 +102,37 @@ class Order extends Model
                 $pres->delete();
             }
     }
+
+    public function getCompleteOrderAttribute()
+    {
+        $order['id']=$this->id;
+        $order['status']=Order::$statuses[$this->status_id];
+        $order['doctor_name']=$this->doctor?$this->doctor->name : 'none';
+        $order['orderd_user']=$this->user->name;
+        $order['is_insured']= $this->is_insured ? 'yes':'no';
+        $order['created_at']=$this->created_at->format('d M Y');
+        $order['updated_at']=$this->updated_at->format('d M Y');
+        $order['delivering_address']='flat:'.$this->address->flat_number .',' 
+                                    .'floor:'.$this->address->floor_number .',' 
+                                    . $this->address->building_number
+                                    . $this->address->street_name . ' st,'
+                                    . $this->address->area->name .','   
+                                    . $this->address->area->address;
+        $order['total_price']=$this->total_price;
+        $order['prescriptions']=$this->prescriptions;
+        if(Auth::guard('admin')->check())
+        {
+            $order['pharmacy']=$this->pharmacy?$this->pharmacy->name:'none';
+            $order['creator_type']=$this->creator_type;
+
+        }
+        return $order;
+    }
+
+    public function getCompleteStatusAttribute()
+    {
+        return Order::$statuses[$this->status_id];
+    }
+
+    
 }

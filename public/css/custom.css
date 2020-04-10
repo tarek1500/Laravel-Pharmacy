@@ -9,3 +9,32 @@
     background: rgba(128, 128, 128, 0.418);
 
 }
+.actionButtons
+{
+    width: 50%;
+}
+.actionButtons button,.actionButtons a
+{
+    margin: 0 10px !important;
+    padding: .375rem .75rem !important;
+}
+.order_details p , .order_details li
+{
+    font-size: 1.1em ;
+}
+.order_details span , .order_details label
+{
+    font-weight: bold;
+    font-size: 1.25em;
+}
+.order_details ul li span
+{
+    font-weight: bold;
+
+}
+.revenue-card ,.revenue-card h1{
+    font-size: 2rem;
+}
+.revenue-card h1{
+    font-size: 3rem;
+}

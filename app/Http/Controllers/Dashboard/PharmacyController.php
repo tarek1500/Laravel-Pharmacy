@@ -74,7 +74,7 @@ class PharmacyController extends Controller
             }
         else
         {$new_name="default.jpg";}
-                Pharmacy::create([
+               $pharmacy= Pharmacy::create([
                     'name' => $request->name,
                     'email'=> $request->email,
                     'password' => $request->password,
@@ -83,6 +83,8 @@ class PharmacyController extends Controller
                     'priority'=> $request->priority,
                     'area_id'=> $request->area_id,
                 ]);
+                $pharmacy->assignRole("pharmacy","pharmacy");
+                $pharmacy->assignRole("doctor","pharmacy");
                 return redirect()->route('dashboard.pharmacies.index');  
       
 

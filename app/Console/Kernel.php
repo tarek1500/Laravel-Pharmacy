@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('notify:last_login')->daily();
+        $schedule->command('notify:users')->daily();
     }
 
     /**

@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 
 class SendWelcomeMessage extends Notification implements ShouldQueue
 {
-	use Queueable;
+    use Queueable;
 
     /**
      * Create a new notification instance.

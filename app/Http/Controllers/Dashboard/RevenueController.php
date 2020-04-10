@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Order;
 use App\Pharmacy;
-
+use Illuminate\Support\Facades\Auth;
 
 class RevenueController extends Controller
 {

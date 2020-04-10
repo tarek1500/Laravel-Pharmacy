@@ -80,9 +80,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
 		return null;
     }
-    
+
     public function setAvatarAttribute($image){
-        
+
         if(isset($this->attributes['avatar_img']))
             Storage::delete($this->avatar_img);
 

@@ -79,3 +79,5 @@ function deleteMedRow(e)
 {
     $(this).parent().parent().remove()
 }
+
+$('carousel').carousel('pause')

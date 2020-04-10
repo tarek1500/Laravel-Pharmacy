@@ -98,4 +98,9 @@ class Pharmacy extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new VerifyEmail);
     }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Order','pharamcy_id');
+    }
 }

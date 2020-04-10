@@ -3,14 +3,11 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
-      <div class="mx-auto my-3"><h1 class="text-secondary">
-      <form method="post" action="{{route('admin.logout')}}">
-      @csrf
-          <input class="btn btn-warning" type="submit" value="logout">
-      </form>
-      </h1> </div>
-        <img class="mx-auto" style="width: 700px;" src="./images/logo.png">
-    </div>
+      <div class="mx-auto text-center ">
+        <h1 style="font-size: 45px">
+            Welcome To ZAGST Pharmacies
+        </h1>
+      <img class="mx-auto" style="width: 700px;" src="./images/logo.png">
+      </div>
   </div>
 @endsection

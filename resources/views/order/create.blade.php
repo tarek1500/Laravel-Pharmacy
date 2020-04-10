@@ -5,9 +5,10 @@
 
 <h2>Create New Order</h2>
 <br>
-<form method="POST" action="{{route('dashboard.orders.store')}}">
+<div class="container">
+    <form method="POST" action="{{route('dashboard.orders.store')}}">
 @csrf
-<div class="form-group px-5">
+    <div class="form-group px-5">
     <label for="exampleFormControlSelect1">User</label>
     <select class="form-control mb-4" id="userSelect" name="order_user_id">
       <option ></option>
@@ -22,9 +23,9 @@
       <div class="col-4 medicineNameContainer">
         <label for="exampleFormControlInput1">Medicine Name</label>
         <select name="med_name[]" class="form-control mb-4 medicineNameSelect">
-          @foreach ($medicines as $medicine)
-          <option ></option>
-           <option value="{{$medicine->name}}">{{$medicine->name}}</option>
+          <option value=""></option>
+          @foreach ($medicines_unique_names as $medicines_unique_name)
+          <option value="{{$medicines_unique_name->name}}">{{$medicines_unique_name->name}}</option>
           @endforeach
         </select>
       </div>
@@ -32,9 +33,9 @@
         <label for="">Medicine Type</label>
         <select name="med_type[]"  class="form-control mb-4 medicineTypeSelect">
           <option ></option>
-          @foreach ($medicines as $medicine)
-           <option value="{{$medicine->type}}">{{$medicine->type}}</option>
-          @endforeach
+          @foreach ($medicines_unique_types as $medicines_unique_type)
+          <option value="{{$medicines_unique_type->type}}">{{$medicines_unique_type->type}}</option>
+         @endforeach
         </select>
       </div>
       <div class="col-2 medQuanityContainer">
@@ -50,8 +51,8 @@
         <button class="btn btn-danger delete" type='button'>X</button>
       </div>
     </div>
-    
-    
+
+
   </div>
 
   <div class="form-group px-5">
@@ -69,10 +70,13 @@
   </div>
 
   <div class="form-group">
-    <button type="submit" class="btn btn-success ">Order</button>
+    <button type="submit" class="btn btn-success d-block mx-auto" style="width:80%;">Order</button>
   </div>
 
 </form>
+
+</div>
+
 <div class="container">
   <div class="row text-right">
     <div class="col">
@@ -83,15 +87,15 @@
 
 <select name="med_name[]" class="form-control mb-4 medData d-none">
   <option ></option>
-  @foreach ($medicines as $medicine)
-   <option value="{{$medicine->name}}">{{$medicine->name}}</option>
+  @foreach ($medicines_unique_names as $medicines_unique_name)
+   <option value="{{$medicines_unique_name->name}}">{{$medicines_unique_name->name}}</option>
   @endforeach
 </select>
 
 <select name="med_type[]" class="form-control mb-4 typeData d-none">
   <option ></option>
-  @foreach ($medicines as $medicine)
-   <option value="{{$medicine->type}}">{{$medicine->type}}</option>
+  @foreach ($medicines_unique_types as $medicines_unique_type)
+   <option value="{{$medicines_unique_type->type}}">{{$medicines_unique_type->type}}</option>
   @endforeach
 </select>
 
@@ -105,4 +109,11 @@
     </div>
 @endif
 
+@endsection
+
+@section('script')
+     <!-- Select2 -->
+     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+     <!-- medicine creation form -->
+   <script src="{{ asset('js/medicine.js')}}"></script>
 @endsection
