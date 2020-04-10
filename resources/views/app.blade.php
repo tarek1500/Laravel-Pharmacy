@@ -71,16 +71,16 @@
       <!-- SEARCH FORM -->
 
       @role('admin','admin')
-      <form class="floar-right ml-auto mr-5"  method="post" action="{{route('admin.logout')}}">
+      <form class="floar-right ml-auto"  method="post" action="{{route('admin.logout')}}">
       @else
         @role('pharmacy','pharmacy')
-           <form method="post" class="float-right ml-auto mr-5" action="{{route('pharmacy.logout')}}">
+           <form method="post" class="float-right ml-auto" action="{{route('pharmacy.logout')}}">
         @else
-            <form method="post" class="float-right ml-auto mr-5" action="{{route('doctor.logout')}}">
+            <form method="post" class="float-right ml-auto" action="{{route('doctor.logout')}}">
         @endrole
       @endrole
       @csrf
-          <input class="btn btn-primary  btn-md float-right ml-auto mr-5" type="submit" value="logout">
+          <input class="btn btn-primary  btn-md float-right ml-auto" type="submit" value="logout">
       </form>
 
 

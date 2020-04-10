@@ -1,8 +1,6 @@
 @extends('app')
 @section('title', 'Areas')
-
 @section('content')
-
 
 <h1 class="text-secondary float-left">Areas Section</h1>
 <a href="" class="btn btn-success btn-lg float-right mr-5"> Create a New Area </a>

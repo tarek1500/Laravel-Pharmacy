@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Doctor;
 use App\Pharmacy;
+use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\DataTables;
+
 
 class DoctorController extends Controller
 {
@@ -14,12 +17,23 @@ class DoctorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $doctors =  Doctor::all();
-        return view('doctor/index',[
-            "doctors" => $doctors
-        ]);
+
+        if($request->ajax()){
+            $data = Doctor::latest()->get();
+            return DataTables::of($data)
+                ->addColumn('action' , function($data){
+                    $button = '<button type="button" name="edit" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
+                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" id="'.$data->id.'" class="delete btn btn-danger btn-sm">Delete</button>';
+                    return $button;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('doctor/index');
+
     }
 
     /**
@@ -69,7 +83,7 @@ class DoctorController extends Controller
         Doctor::create([
             'name' => $request->name,
             'email'=> $request->email,
-            'password' => $request->password,
+            'password' =>  Hash::make( $request->password),
             'national_id' => $request->national_id,
             'avatar_image' => $fileName,
             'pharmacy_id'=> $pharmacyId

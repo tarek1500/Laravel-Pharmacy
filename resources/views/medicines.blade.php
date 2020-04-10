@@ -15,23 +15,9 @@
   </thead>
 
   <tbody>
-    <tr>
-      <td>1</td>
-      <td>test</td>
-      <td>testtest</td>
-    </tr>
 
-    <tr>
-      <td>1</td>
-      <td>test</td>
-      <td>testtest</td>
-    </tr>
 
-    <tr>
-      <td>1</td>
-      <td>test</td>
-      <td>testtest</td>
-    </tr>
+
   </tbody>
 </table>
 
