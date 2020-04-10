@@ -16,7 +16,7 @@ use App\Mail\MissuEmail;
 
 Route::get('/', function () { return view ('welcome');})->name('home');
 
-Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dashboard.', "middleware"=>["auth:pharmacy,admin,doctor","emails.verified"]], function () {
+Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dashboard.', "middleware"=>["auth:pharmacy,admin,doctor","emails.verified","banned"]], function () {
 
 	Route::get('/', function () { return view('index'); })->name('index');
 	

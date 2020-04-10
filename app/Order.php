@@ -84,7 +84,7 @@ class Order extends Model
     {   
         $this->deleteOldPrescriptions();
         foreach($files as $file){ 
-            $path = $file->store('images/prescriptions');
+            $path = $file->store('public/images/prescriptions');
             Prescription::create([
                 'image'=>$path,
                 'order_id'=>$this->id
