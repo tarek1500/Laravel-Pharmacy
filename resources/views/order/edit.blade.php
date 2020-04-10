@@ -10,7 +10,7 @@
     @if (count($order->prescriptions)>0)
       @foreach ($order->prescriptions as $key=>$prescription)
       <div class="carousel-item {{ $key==0 ? 'active' : ''}}">
-        <img src="/img.jpg" class="d-block  mx-auto img-fluid" alt="...">
+        <img src="{{$prescription->image}}" class="d-block  mx-auto img-fluid" alt="...">
       </div>
       @endforeach
     </div>
