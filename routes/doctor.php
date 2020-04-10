@@ -2,7 +2,7 @@
 
 Route::group(['namespace' => 'Doctor'], function() {
     
-    Route::group(["middleware"=>"doctor.auth"],function(){
+    Route::group(["middleware"=>["doctor.auth","banned"]],function(){
          // Dashboard
         Route::get('/', 'HomeController@index')->name('doctor.home')
                 ->middleware('emails.verified');

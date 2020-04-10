@@ -8,7 +8,7 @@ use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display the specified resource.

@@ -8,13 +8,12 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
-use  Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Cashier\Billable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Pharmacy extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable;
-    use HasRoles;
-    use SoftDeletes;
+    use Notifiable, HasRoles, SoftDeletes, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -98,6 +97,11 @@ class Pharmacy extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new VerifyEmail);
     }
+
+    public function setPasswordAttribute($password)
+{
+    $this->attributes['password'] = \Hash::make($password);
+}
 
     public function orders()
     {
