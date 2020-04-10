@@ -14,7 +14,6 @@ class Address extends Model
         'is_main',
         'area_id',
         'user_id'
-
     ];
 
     public function user()
@@ -25,13 +24,11 @@ class Address extends Model
     public function area()
     {
         return $this->belongsTo('App\Area');
-
     }
 
     public function orders()
     {
         return $this->hasMany('App\Order','delivering_address_id');
     }
-
-   
+    
 }

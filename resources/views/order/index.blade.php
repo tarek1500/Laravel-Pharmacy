@@ -3,29 +3,31 @@
 
 @section('content')
 
-<h2 class = " text-secondary">Orders index page</h2>
+<div class="container">
+    <h2 class = "float-left text-secondary">Orders index page</h2>
+    <a href="{{route('dashboard.orders.create')}}" class="btn btn-success btn-lg float-right mr-5"> Create a new order </a>
+</div>
 
-<a href="{{route('dashboard.orders.create')}}" class="btn btn-success btn-lg float-right mr-5"> Create a new order </a>
-
-<table class="table table-striped text-center display" id="orders_table" >
+<div class="container">
+<table class="table table-striped text-center"  id="orders_table" >
     <thead>
       <tr>
         <th scope="col" >ID</th>
-        <th scope="col" style="width:50%;">Order's User Name</th>
-        <th scope="col" >Delivering Address</th>
+        <th scope="col" style="width:50%;">User Name</th>
+        <th scope="col" >Delivering Add</th>
         <th scope="col" >Creation Date</th>
         <th scope="col" >Doctor Name</th>
         <th scope="col" >Is Insured</th>
         <th scope="col" >Status</th>
         @if(Auth::guard('admin')->check())
         <th scope="col" >Creator type</th>
-        <th scope="col" >Assigned Pharmacy</th>
+        <th  scope="col" >Assigned Pharmacy</th>
         @endif
-        <th scope="col" style="width:50%;">Actions</th>
+        <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody >
-    
+
     </tbody>
     <tfoot></tfoot>
   </table>
@@ -63,7 +65,8 @@
         </div>
     </div>
 </div>
- 
+
+</div>
 @section('script')
 <script>
 
@@ -77,9 +80,9 @@ $('#orders_table').DataTable({
  ajax:'{{ route('dashboard.orders.index') }}',
 
       columns: [
-                { 
+                {
                   data: 'id',
-                  name: 'id' 
+                  name: 'id'
                 },
                 {
                   data: 'orderd_user',
@@ -88,7 +91,7 @@ $('#orders_table').DataTable({
                 {
                   data: 'delivering_address',
                   name: 'delivering_address'
-                },      
+                },
                 {
                   data: 'created_at',
                   name: 'created_at'
@@ -119,17 +122,18 @@ $('#orders_table').DataTable({
                   data: 'action',
                   name: 'action',
                   orderable: false,
-                  className:'actionButtons'
+                  className:'actionButtons',
+                  
                 },
-                
+
             ],
                });
                     });
-       
+
 var order_id;
 function deleteOrder(o_id)
   {  order_id=o_id;
-  $('#confirmModal').modal('show'); 
+  $('#confirmModal').modal('show');
   }
   $('#ok_button').click(function(){
   $.ajax({
@@ -138,17 +142,17 @@ function deleteOrder(o_id)
   headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
   },
-      
-  
+
+
   success:function(data)
   {
-    
+
       setTimeout(function(){
       $('#confirmModal').modal('hide');
       $('#orders_table').DataTable().ajax.reload();
       }, 2000);
-     
-  
+
+
   }
  })
 });

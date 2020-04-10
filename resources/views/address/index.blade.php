@@ -17,32 +17,18 @@
   </thead>
 
   <tbody>
-    <tr>
-      <td>1</td>
-      <td>AHmed</td>
-      <td>sidibeshr</td>
-      <td>14</td>
-      <td>20</td>
-      <td>Yes</td>
-    </tr>
 
+    @foreach ($addresses as $address)
     <tr>
-      <td>1</td>
-      <td>AHmed</td>
-      <td>sidibeshr</td>
-      <td>14</td>
-      <td>20</td>
-      <td>Yes</td>
+        <td>{{ $address->user_id  }}</td>
+        <td>{{ $address->user->name }}</td>
+        <td>{{ $address->street_name }}</td>
+        <td>{{ $address->floor_number }}</td>
+        <td>{{ $address->area_id  }}</td>
+        <td>{{ $address->is_main  }}</td>
     </tr>
+    @endforeach
 
-    <tr>
-      <td>1</td>
-      <td>AHmed</td>
-      <td>sidibeshr</td>
-      <td>14</td>
-      <td>20</td>
-      <td>Yes</td>
-    </tr>
   </tbody>
 </table>
 

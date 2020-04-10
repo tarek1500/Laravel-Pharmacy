@@ -5,9 +5,10 @@
 
 <h2>Create New Order</h2>
 <br>
-<form method="POST" action="{{route('dashboard.orders.store')}}">
+<div class="container">
+    <form method="POST" action="{{route('dashboard.orders.store')}}">
 @csrf
-<div class="form-group px-5">
+    <div class="form-group px-5">
     <label for="exampleFormControlSelect1">User</label>
     <select class="form-control mb-4" id="userSelect" name="order_user_id">
       <option ></option>
@@ -50,8 +51,8 @@
         <button class="btn btn-danger delete" type='button'>X</button>
       </div>
     </div>
-    
-    
+
+
   </div>
 
   <div class="form-group px-5">
@@ -73,6 +74,9 @@
   </div>
 
 </form>
+
+</div>
+
 <div class="container">
   <div class="row text-right">
     <div class="col">

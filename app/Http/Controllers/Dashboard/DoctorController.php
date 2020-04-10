@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Doctor;
 use App\Pharmacy;
-use Symfony\Component\Console\Input\Input;
 
 class DoctorController extends Controller
 {
@@ -18,8 +17,7 @@ class DoctorController extends Controller
     public function index()
     {
         $doctors =  Doctor::all();
-
-        return view('doctors',[
+        return view('doctor/index',[
             "doctors" => $doctors
         ]);
     }
@@ -32,7 +30,7 @@ class DoctorController extends Controller
     public function create()
     {
         $pharmacies = Pharmacy::all();
-        return view('addnewdoctor',[
+        return view('doctor/create',[
             "pharmacies" => $pharmacies
         ]);
     }
@@ -104,7 +102,7 @@ class DoctorController extends Controller
         $pharmacies = Pharmacy::all();
 
 
-        return view('editdoctor',[
+        return view('doctor/edit',[
             "pharmacies" => $pharmacies,
             "doctor" => $doctor
         ]);
