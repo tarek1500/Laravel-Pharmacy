@@ -1,6 +1,6 @@
 @extends('app')
 @section('title', 'Revenues')
-
+@role('admin')
 @section('content')
 <div class="container">    
 <div class="card text-center bg-success p-0">
@@ -8,6 +8,7 @@
     <h3>Pharmacies Total Revenue is {{$pharmacies_total}}</h3>
   </div>
 </div>
+
 <div class="table-responsive">
 
 <table class="table table-bordered table-striped" id="revenue_table">
@@ -47,3 +48,7 @@ $(document).ready(function(){
   </script>
         
 @endsection
+@endrole
+@role('pharmacy','pharmacy')
+
+@endrole

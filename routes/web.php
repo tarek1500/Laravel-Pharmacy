@@ -17,15 +17,22 @@ use App\Mail\MissuEmail;
 Route::get('/', function () { return view ('welcome');})->name('home');
 
 Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dashboard.', "middleware"=>["auth:pharmacy,admin,doctor","emails.verified"]], function () {
+
 	Route::get('/', function () { return view('index'); })->name('index');
-	Route::resource('pharmacies', 'PharmacyController');
-	Route::resource('doctors', 'DoctorController');
-	Route::resource('users', 'UserController');
-	Route::resource('addresses', 'AddressController');
+	
+	Route::group(["middleware"=>"role:admin"],function(){
+		Route::resource('pharmacies', 'PharmacyController');
+		Route::resource('users', 'UserController');
+		Route::resource('addresses', 'AddressController');
+		Route::resource('areas', 'AreaController');
+	});
+	Route::group(["middleware"=>"role:pharmacy"],function(){
+		Route::resource('doctors', 'DoctorController');
+		Route::get('revenues', 'RevenueController@index')->name('revenue.index');
+	});
+	
 	Route::resource('medicines', 'MedicineController');
-	Route::resource('areas', 'AreaController');
-	Route::resource('orders', 'OrderController');
-	Route::get('revenues', 'RevenueController@index')->name('revenue.index');
+	Route::resource('orders', 'OrderController');	
 });
 
 Route::get('/test' , function () { return view('createnewpharmacy'); });

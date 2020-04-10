@@ -107,7 +107,7 @@
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-
+          @role('admin')
             <li class="nav-item">
               <a href="{{route('dashboard.pharmacies.index')}}" class="nav-link">
                 <i class="fas fa-clinic-medical"></i>
@@ -116,7 +116,8 @@
                 </p>
               </a>
             </li>
-
+          @endrole
+          @role('pharmacy')
             <li class="nav-item">
               <a href="{{route('dashboard.doctors.index')}}" class="nav-link">
                 <i class="fas fa-user-md fa-lg"></i>
@@ -125,7 +126,8 @@
                 </p>
               </a>
             </li>
-
+          @endrole
+          @role('admin')
             <li class="nav-item">
               <a href="{{route('dashboard.users.index')}}" class="nav-link">
                 <i class="fas fa-address-book fa-lg"></i>
@@ -153,7 +155,8 @@
                 </p>
               </a>
             </li>
-
+        @endrole
+        @role('doctor')
             <li class="nav-item">
               <a href="{{route('dashboard.medicines.index')}}" class="nav-link">
                 <i class="fas fa-capsules fa-lg"></i>
@@ -171,7 +174,8 @@
                 </p>
               </a>
             </li>
-
+          @endrole
+          @role('pharmacy')
             <li class="nav-item">
               <a href="{{route('dashboard.revenue.index')}}" class="nav-link">
                 <i class="fas fa-file-invoice-dollar fa-lg"></i>
@@ -180,7 +184,7 @@
                 </p>
               </a>
             </li>
-
+          @endrole
 
           </ul>
         </nav>
