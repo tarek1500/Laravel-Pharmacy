@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,8 +21,8 @@ Route::group(['namespace' => 'API', 'as' => 'api.'], function () {
 	Route::get('email/verify/{id}/{hash}', 'VerificationController@verify')->name('verification.verify');
 
 	Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
-		Route::get('profile', 'UserController@show')->name('users.profile.show');
-		Route::put('profile', 'UserController@update')->name('users.profile.update');
+		Route::get('profile', 'ProfileController@show')->name('users.profile.show');
+		Route::put('profile', 'ProfileController@update')->name('users.profile.update');
 		Route::resource('addresses', 'AddressController')->except(['create', 'edit']);
 		Route::resource('orders', 'OrderController')->except(['create', 'edit', 'delete']);
 	});

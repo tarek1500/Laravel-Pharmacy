@@ -19,21 +19,16 @@ class RevenueController extends Controller
     {   
         $revenue=array();
         $total=0;
-     
-        if (Auth::guard('pharmacy')->check()) {
-            $id=Auth::user()->id;
-            $pharmacies = Pharmacy::where('id',$id)->get();
-         }
-         
-        if (Auth::guard('admin')->check()) {
+        $myTotal=0;   
         $pharmacies = Pharmacy::all();
-        }
-
+        
         foreach($pharmacies as $pharmacy)
             {
                 $orders=Order::where('pharamcy_id',$pharmacy->id)->get();
                 $TotalOrders=$orders->count();
                 $TotalRevenue=$orders->sum('total_price');
+                if(Auth::id()==$pharmacy->id)
+                        $myTotal=$TotalRevenue;
                 $total=$total+$TotalRevenue;
                 array_push($revenue,
                 [  'avatar_image'=> $pharmacy->avatar_image,
@@ -51,6 +46,7 @@ class RevenueController extends Controller
 
         return view('revenues',[
             'total' => $total,
+            'myTotal'=>$myTotal,
         ]);
     }
 

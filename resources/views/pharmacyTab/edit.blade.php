@@ -52,7 +52,6 @@
           </div>
         </div>
       
-        @if(Auth::guard('admin')->check())
           <div class="mb-3">
             <label for="state">Area</label>
             <select name="area_id" class="custom-select d-block w-100" id="state">
@@ -71,10 +70,7 @@
           </div>
         </div>
 
-        @elseif(Auth::guard('pharmacy')->check())
-         <input type="hidden" id="area_id" name ="area_id" value="{{$pharmacy->area->id}}">
-         <input type="hidden" id="priority" value="{{$pharmacy->priority}}" name="priority" >
-        @endif 
+
    
 		  <input type="hidden" name="_method" value="PATCH" />
 

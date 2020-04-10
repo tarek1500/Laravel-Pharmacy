@@ -18,15 +18,7 @@ class AddressController extends Controller
      */
     public function index()
     {   $address_table=array();
-        if (Auth::guard('user')->check()) {
-            // $id=Auth::guard('user')->id;
-            $id=Auth::user()->id;
-            $addresses = Address::where('user_id',$id)->get();
-       } 
-
-    
-       else if (Auth::guard('admin')->check()) {
-        $addresses = Address::all();}
+        $addresses = Address::all();
 
 
         foreach($addresses as $address)
@@ -59,7 +51,7 @@ class AddressController extends Controller
             })
             ->rawColumns(['action'])
             ->make(true);}
-        return view('addresses', [
+        return view('address.index', [
             'addresses' => $addresses,
         ]);
     }
@@ -73,23 +65,16 @@ class AddressController extends Controller
     {
         $areas = Area::all();
         $users= User::all();
-        if (Auth::guard('user')->check()) {
-           $id=Auth::user()->id;
-           return view('addressTab.create', [
-            'areas' => $areas,
-            'id'=>$id,
-        ]);
-        }
-        else{
+    
 
             return view('addressTab.create', [
                 'areas' => $areas,
                 'users' => $users,
             ]);
-        }
+    }
 
        
-    }
+    
 
     /**
      * Store a newly created resource in storage.

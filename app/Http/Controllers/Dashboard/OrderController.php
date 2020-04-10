@@ -12,6 +12,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Laravel\Cashier\Exceptions\CustomerAlreadyCreated;
 use Yajra\DataTables\DataTables;
 
 class OrderController extends Controller
@@ -147,6 +148,14 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
+		$user = $this->getCurrentUser();
+
+		try
+		{
+			$user->createAsStripeCustomer();
+		}
+		catch (CustomerAlreadyCreated $ex) { }
+
         $order=Order::find($id);
         $this->validateUpdateOrderToLoggedUser($order);
         $statuses=Order::$statuses;
@@ -164,7 +173,8 @@ class OrderController extends Controller
             'statuses' =>$statuses,
             'medicines_unique_names'=>$medicines_unique_names,
             'medicines_unique_types'=>$medicines_unique_types,
-            'order'=>$order
+            'order'=>$order,
+			'intent' => $user->createSetupIntent()
         ]);
 
     }
@@ -241,4 +251,18 @@ class OrderController extends Controller
         $order->prescriptions()->delete();
         $order->delete();
     }
+
+	private function getCurrentUser()
+	{
+		$user = null;
+
+		if (Auth::guard('admin')->check())
+			$user = Auth::guard('admin')->user('admin');
+		else if (Auth::guard('pharmacy')->check())
+			$user = Auth::guard('pharmacy')->user('pharmacy');
+		else if (Auth::guard('doctor')->check())
+			$user = Auth::guard('doctor')->user('doctor');
+
+		return $user;
+	}
 }
