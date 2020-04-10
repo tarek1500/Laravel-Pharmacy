@@ -49,22 +49,6 @@
     </div>
 </div>
 
-<div id="cantDeleteModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h2 align="left" >Cant Delete!</h2>
-                <button align="right" type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <h4 align="center" style="margin:0;">This Pharmacy has Orders</h4>
-            </div>
-            <div class="modal-footer">
-            <button align="center" type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 </div>
 @section('script')
