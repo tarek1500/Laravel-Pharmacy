@@ -1,7 +1,7 @@
 @extends('app')
 @section('title', 'Revenues')
-@role('admin')
 @section('content')
+@role('admin')
 <div class="container">    
 <div class="card text-center bg-success p-0">
   <div class="card-body p-2">
@@ -46,9 +46,27 @@ $(document).ready(function(){
             });
          });
   </script>
-        
-@endsection
 @endrole
 @role('pharmacy','pharmacy')
-
+<div class="revenue-card" >
+<div class="container ">
+  <div class="row">
+    <div class="col-12 col-sm-8 col-md-6 ">
+      <div class="card text-center">
+        <div class="card-header text-center border-bottom-0 bg-transparent text-success pt-4">
+          <h5>Your pharmacy revenue</h5>
+        </div>
+        <div class="card-body">
+          <h1>${{$myTotal}}</h1>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><i class="fas fa-male text-success mx-2"></i>Keep the good work up</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 @endrole
+@endsection
+

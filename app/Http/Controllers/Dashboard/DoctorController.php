@@ -66,7 +66,7 @@ class DoctorController extends Controller
         }
 
 
-        Doctor::create([
+        $doctor=Doctor::create([
             'name' => $request->name,
             'email'=> $request->email,
             'password' => $request->password,
@@ -74,6 +74,7 @@ class DoctorController extends Controller
             'avatar_image' => $fileName,
             'pharmacy_id'=> $pharmacyId
         ]);
+        $doctor->assignRole("doctor","doctor");
 
         return redirect('dashboard/doctors');
     }
