@@ -30,49 +30,54 @@
 @csrf
 @method('PUT')
 <div class="form-group px-5">
-    <label for="exampleFormControlSelect1">User</label>
-    <select class="form-control mb-4" id="userSelect" name="order_user_id">
-      <option ></option>
-      @foreach ($users as $user)
-     <option value="{{$user->id}}" @if($order->order_user_id == $user->id){{'selected'}}@endif>{{$user->name}}</option>
-      @endforeach
-    </select>
+    
+    <p><label for="exampleFormControlSelect1">User : </label> {{$order->user->name}}</p>
+    <label for=""> Delivering Address :</label>
+      <ul>
+          <li><span>Flat number: </span>{{$order->address->flat_number}}</li>
+          <li><span>Floor number: </span>{{$order->address->floor_number}}</li>
+          <li><span>Building number: </span>{{$order->address->building_number}}</li>
+          <li><span>Street: </span>{{$order->address->street_name}}</li>
+          <li><span>Area: </span>{{$order->address->area->name .','.$order->address->area->address}} </li>
+      </ul>
   </div>
   
-  <label class="px-5">Medicines:</label>
+  <label class="px-4">Medicines:</label>
   <div class="container px-5 medicineContainer">
     @foreach ($order->medicines as $order_medicine)
     <div class="row medicineRow">
       <div class="col-4 medicineNameContainer">
         <label for="exampleFormControlInput1">Medicine Name</label>
-        <select name="med_name[]" class="form-control mb-4 medicineNameSelect">
-          @foreach ($medicines as $medicine)
+        <select name="med_name[]" class="form-control mb-4 medicineNameSelect" {{$order->status_id >1? 'disabled' : ''}}>
+          @foreach ($medicines_unique_names as $medicines_unique_name)
           <option ></option>
-           <option value="{{$medicine->name}}" @if($medicine->id==$order_medicine->id){{'selected'}}@endif>{{$medicine->name}}</option>
+           <option value="{{$medicines_unique_name->name}}" @if($medicines_unique_name->name==$order_medicine->name){{'selected'}}@endif>{{$medicines_unique_name->name}}</option>
           @endforeach
         </select>
       </div>
       <div class="col-3 " class='medTypeContainer'>
         <label for="">Medicine Type</label>
-        <select name="med_type[]"  class="form-control mb-4 medicineTypeSelect">
+        <select name="med_type[]"  class="form-control mb-4 medicineTypeSelect"  {{$order->status_id >1? 'disabled' : ''}}>
           <option ></option>
-          @foreach ($medicines as $medicine)
-           <option value="{{$medicine->type}}" @if($medicine->type==$order_medicine->type){{'selected'}}@endif>{{$medicine->type}}</option>
+          @foreach ($medicines_unique_types as $medicines_unique_type)
+           <option value="{{$medicines_unique_type->type}}" @if($medicines_unique_type->type==$order_medicine->type){{'selected'}}@endif>{{$medicines_unique_type->type}}</option>
           @endforeach
         </select>
       </div>
       <div class="col-2 medQuanityContainer">
         <label for="">Quantity</label>
-      <input type="number" name="med_quantity[]" value="{{$order_medicine->pivot->quantity}}"class="form-control mb-4 quantity" >
+      <input type="number" name="med_quantity[]" value="{{$order_medicine->pivot->quantity}}"class="form-control mb-4 quantity"  {{$order->status_id >1? 'disabled' : ''}}>
       </div>
       <div class="col-2 medPriceContainer">
         <label for="">Price</label>
-      <input type="number" name="med_price[]"class="form-control mb-4 price"  value="{{$order_medicine->pivot->price/100}}">
+      <input type="number" name="med_price[]"class="form-control mb-4 price"  value="{{$order_medicine->pivot->price/100}}"  {{$order->status_id >1? 'disabled' : ''}}>
       </div>
+      @if( $order->status_id <2)
       <div class="col-1 my-4 addMedBtnContainer">
         <button class="btn btn-success add"  type="button">+</button>
         <button class="btn btn-danger delete" type='button'>X</button>
       </div>
+      @endif
     </div>
     @endforeach
     
@@ -88,8 +93,10 @@
     <select name="status_id"  class="form-control" >
       
       @foreach ($statuses as $key =>$value)
-      <option value={{$key}} @if($key==$order->status_id){{'selected'}}@endif>{{$value}}</option>
-      @endforeach
+        @if($key>= $order->status_id)
+       <option value={{$key}} @if($key==$order->status_id){{'selected'}}@endif>{{$value}}</option>
+        @endif
+       @endforeach
 
     </select>
   </div>
@@ -109,15 +116,15 @@
 
 <select name="med_name[]" class="form-control mb-4 medData d-none">
   <option ></option>
-  @foreach ($medicines as $medicine)
-   <option value="{{$medicine->name}}">{{$medicine->name}}</option>
+  @foreach ($medicines_unique_names as $medicines_unique_name)
+   <option value="{{$medicines_unique_name->name}}">{{$medicines_unique_name->name}}</option>
   @endforeach
 </select>
 
 <select name="med_type[]" class="form-control mb-4 typeData d-none">
   <option ></option>
-  @foreach ($medicines as $medicine)
-   <option value="{{$medicine->type}}">{{$medicine->type}}</option>
+  @foreach ($medicines_unique_types as $medicines_unique_type)
+   <option value="{{$medicines_unique_type->type}}">{{$medicines_unique_type->type}}</option>
   @endforeach
 </select>
 
