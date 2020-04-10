@@ -39,7 +39,6 @@
     @section('script')
         <script>
             $(document).ready(function(){
-                $('#medicines_table_wrapper').removeClass('form-inline')
 
 $('#medicines_table').DataTable({
  processing: true,

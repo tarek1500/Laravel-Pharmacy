@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Area;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class AreaController extends Controller
 {
@@ -16,10 +17,16 @@ class AreaController extends Controller
     public function index()
     {
 		$areas = Area::all();
-
-		return view('areas', [
-			'areas' => $areas
-		]);
+		if(request()->ajax())
+        {
+            return DataTables::of($areas)->addColumn('action',function($area){
+                $button = '<a type="button" name="show" href=" /dashboard/areas/'. $area->id.'" id="'. $area->id.'" class="btn btn-success"><i class="fa fa-eye"></i></a>';
+                $button .= '<a type="button" name="edit" href=" /dashboard/areas/'. $area->id.'/edit" id="'. $area->id.'" class="btn btn-primary" ><i class="fas fa-edit"></i></a>';
+                $button .= '<button type="button" name="delete" onclick="deleteArea('. $area->id.')" id="'. $area->id.'" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></button>';
+				return $button;
+            })->rawColumns(['action'])->make(true);
+        }
+        return view('areas.index');
     }
 
     /**

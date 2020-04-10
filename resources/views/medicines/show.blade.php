@@ -12,7 +12,7 @@
 				<p><i class="fa fa-calendar"></i> Created at: {{$medicine->created_at->format('d M Y')}}</p>
 				<p><i class="fa fa-calendar"></i> Updated at: {{$medicine->updated_at->format('d M Y')}}</p>
 			</div>
-			<a href="{{route('dashboard.medicines.edit',['medicine'=>$medicine->id])}}" class="btn btn-success">Edit Profile</a>
+			<a href="{{route('dashboard.medicines.edit',['medicine'=>$medicine->id])}}" class="btn btn-success">Edit Medicine</a>
 		</div>
 	</div>
 @endsection
