@@ -186,6 +186,16 @@
               </a>
             </li>
           @endrole
+           @unlessrole('admin')
+            <li class="nav-item">
+              <a href="{{route('dashboard.profile.edit')}}" class="nav-link">
+                <i class="fas fa-file-invoice-dollar fa-lg"></i>
+                <p>
+                  Edit Profile
+                </p>
+              </a>
+            </li>
+          @endunlessrole
 
           </ul>
         </nav>

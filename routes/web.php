@@ -33,7 +33,8 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
 	
 	Route::resource('medicines', 'MedicineController');
 	Route::resource('orders', 'OrderController');	
+
+	Route::get('/profile','ProfileController@edit')->name('profile.edit');
+	Route::put('/profile','ProfileController@update')->name('profile.update');	
 });
 
-Route::get('/test' , function () { return view('createnewpharmacy'); });
-// Route::get('/dashboard/doctors/delete/{id}','DoctorController@destroy')->name('doctors.destroy');

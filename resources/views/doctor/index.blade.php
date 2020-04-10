@@ -10,7 +10,9 @@
         <th scope="col">Doctor's ID</th>
         <th scope="col">Image</th>
         <th scope="col">Doctor's Name</th>
+        @role('admin')
         <th scope="col">Doctor's Branch</th>
+        @endrole
         <th width="10%" scope="col">Edit</th>
         <th width="10%" scope="col">Delete</th>
 
@@ -25,8 +27,9 @@
             <th scope="row">{{$doctor->id}}</th>
             <td><img width="50 px" height="50 px" src="{{ asset('/images/doctors/' . $doctor->avatar_image ) }}"></td>
             <td>{{$doctor->name}}</td>
+            @role('admin')
             <td>{{$doctor->pharmacy_id ? $doctor->Pharmacy->name : "NotExist" }}</td>
-
+            @endrole
             <td width="10%">
                 <form method="get" action="{{route('dashboard.doctors.edit' , $doctor->id)}}">
                     @csrf
