@@ -20,6 +20,13 @@ class PharmacyController extends Controller
      */
     public function index()
     {  
+        
+       if (Auth::guard('pharmacy')->check()) {
+            $id=Auth::user()->id;
+            show($id);
+       } 
+
+       else if (Auth::guard('admin')->check()) {
         $pharmacies = Pharmacy::all();
         if(request()->ajax())
         {
@@ -36,6 +43,7 @@ class PharmacyController extends Controller
         }
  
         return view('pharmacies');
+       }
     }
 
     /**
@@ -104,17 +112,19 @@ class PharmacyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
         $pharmacy = Pharmacy::find($id);
-        if($pharmacy){
+         
+            if($pharmacy){
             $areas = Area::all();
             return view("pharmacyTab.edit",[
                 "pharmacy" => $pharmacy,
                 "areas" => $areas,
                 ]);
-        }
+              }
 
         return abort(404);
+          
     }
 
     /**
@@ -158,15 +168,6 @@ class PharmacyController extends Controller
     {   $orders=Order::where('pharamcy_id',$id)->get()->count();
         if($orders==0)
         {
-        // $doctors=Doctor::where('pharmacy_id',$id)->get();
-        // if ($doctors->count()>0) 
-        //  { foreach($doctor as $doctors)
-        //      {$doctor->delete();}}
-        
-        // $medicines=MedicinePharmacy::where('pharmacy_id',$id)->get();
-        // if ($medicines->count()>0) 
-        //  {foreach($medicine as $medicines)
-        //     { $medicine->delete();}}
 
         $pharmacy = Pharmacy::find($id);
         $pharmacy->delete();

@@ -43,14 +43,6 @@
         </div>
 
         <div class="mb-3">
-          <label for="priority">Priority: </label>
-          <b><output name="priorityOutputName" id="priorityOutputId" >{{$pharmacy->priority}}</output></b>
-          <div class="input-group">
-          <input type="range" class="form-control" min="1" max="10" id="priorityInputId" placeholder="" value="{{$pharmacy->priority}}" name="priority" oninput="priorityOutputId.value = priorityInputId.value" >
-          </div>
-        </div>
-   
-        <div class="mb-3">
           <label for="avatar">Avatar</label>
 		  <br>
 		  <img src="/images/pharmacy_avatar/{{$pharmacy->avatar_image}}" alt="avatar" height="42" width="42"/>
@@ -60,16 +52,30 @@
           </div>
         </div>
       
-
+        @if(Auth::guard('admin')->check())
           <div class="mb-3">
             <label for="state">Area</label>
             <select name="area_id" class="custom-select d-block w-100" id="state">
 			<option value="{{$pharmacy->area->id}}" >{{$pharmacy->area->name}}</option>
-			@foreach ($areas as $area)
+          	@foreach ($areas as $area)
               <option value="{{$area->id}}" >{{$area->name}}</option>
               @endforeach
             </select>
           </div>
+
+          <div class="mb-3">
+          <label for="priority">Priority: </label>
+          <b><output name="priorityOutputName" id="priorityOutputId" >{{$pharmacy->priority}}</output></b>
+          <div class="input-group">
+          <input type="range" class="form-control" min="1" max="10" id="priorityInputId" placeholder="" value="{{$pharmacy->priority}}" name="priority" oninput="priorityOutputId.value = priorityInputId.value" >
+          </div>
+        </div>
+
+        @elseif(Auth::guard('pharmacy')->check())
+         <input type="hidden" id="area_id" name ="area_id" value="{{$pharmacy->area->id}}">
+         <input type="hidden" id="priority" value="{{$pharmacy->priority}}" name="priority" >
+        @endif 
+   
 		  <input type="hidden" name="_method" value="PATCH" />
 
         <hr class="mb-4">
