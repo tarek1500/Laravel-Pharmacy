@@ -42,7 +42,7 @@
   <div class="wrapper">
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <nav class="main-header navbar py-0 my-0 navbar-expand navbar-white navbar-light">
       <!-- Left navbar links -->
       <ul class="navbar-nav">
         <li class="nav-item">
@@ -69,17 +69,19 @@
       </ul>
 
       <!-- SEARCH FORM -->
-      <form class="form-inline ml-auto mr-0">
-        <div class="input-group input-group-sm">
-          <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-navbar" type="submit">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
-        </div>
-      </form>
 
+      @role('admin','admin')
+      <form class="floar-right ml-auto mr-5"  method="post" action="{{route('admin.logout')}}">
+      @else
+        @role('pharmacy','pharmacy')
+           <form method="post" class="float-right ml-auto mr-5" action="{{route('pharmacy.logout')}}">
+        @else
+            <form method="post" class="float-right ml-auto mr-5" action="{{route('doctor.logout')}}">
+        @endrole
+      @endrole
+      @csrf
+          <input class="btn btn-primary  btn-md float-right ml-auto mr-5" type="submit" value="logout">
+      </form>
 
 
     </nav>
@@ -88,7 +90,6 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-
 
       <!-- Sidebar -->
       <div class="sidebar">
