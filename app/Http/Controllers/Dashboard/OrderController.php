@@ -23,8 +23,14 @@ class OrderController extends Controller
      */
     public function index()
     {
+        if(Auth::guard('admin')->check())
+            $user_orders=Order::all();
+        else if(Auth::guard('pharmacy')->check())
+            $user_orders=Auth::user()->orders;
+        else if(Auth::guard('doctor')->check())
+            $user_orders=Auth::user()->pharmacy->orders;
         $orders=[];
-        foreach(Order::all() as $order)
+        foreach($user_orders as $order)
         {
             $orders[]=$order->completeOrder;
         }
@@ -143,6 +149,7 @@ class OrderController extends Controller
     public function edit($id)
     {
         $order=Order::find($id);
+        $this->validateUpdateOrderToLoggedUser($order);
         $statuses=Order::$statuses;
         $medicines=[];
         if (Auth::guard('admin')->check()) {
@@ -163,6 +170,24 @@ class OrderController extends Controller
        
     }
 
+    private function validateUpdateOrderToLoggedUser($order)
+    {
+        if(Auth::guard('pharmacy')->check())
+        {
+            if( !isset($order->pharmacy)) 
+                 return abort(404);
+            if( Auth::user()->id != $order->pharmacy->id)
+                 return abort(404);
+        }
+        if(Auth::guard('doctor')->check())
+        {
+            if( !isset($order->pharmacy)) 
+                 return abort(404);
+            if( Auth::user()->pharmacy->id != $order->pharmacy->id)
+                 return abort(404);
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -173,6 +198,7 @@ class OrderController extends Controller
     public function update(UpdateOrderRequest $request, $id)
     {
         $order=Order::find($id);
+        $this->validateUpdateOrderToLoggedUser($order);
         if($order->status_id >= 2)
         {
             $order->update($request->only(['status_id']));
