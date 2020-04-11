@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Doctor;
 use App\Pharmacy;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
 
@@ -19,11 +20,11 @@ class DoctorController extends Controller
      */
     public function index(Request $request)
     {
-
-
         $alldoctors=Doctor::all();
+        if(Auth::guard('pharmacy')->check())
+            $alldoctors=Auth::user()->doctors;
+        // dd($alldoctors);
         $doctors = [];
-
         foreach($alldoctors as $doctor)
         {
             $doctors[]=$doctor->getCompleteDoctorAttribute();
@@ -32,18 +33,18 @@ class DoctorController extends Controller
         if($request->ajax()){
             // $data = Doctor::latest()->get();
             return DataTables::of($doctors)
-                ->addColumn('action' , function($doctors){
-                    $button = '<a type="button" name="edit" href=" /dashboard/doctors/'.$doctors['id'].'/edit" id="'.$doctors['id'].'" class="btn mx-2 btn-primary" ><i class="fas fa-edit"></i></a>';
-                    $button .= '<button type="button" name="delete"  onclick="deleteDoctor('.$doctors['id'].')" id="'.$doctors['id'].'" class="btn mx-2 btn-danger" ><i class="fas fa-trash-alt"></i></button>';
+                ->addColumn('action' , function($doctor){
+                    $button = '<a type="button" name="edit" href=" /dashboard/doctor/'.$doctor['id'].'/edit" id="'.$doctor['id'].'" class="btn mx-2 btn-primary" ><i class="fas fa-edit"></i></a>';
+                    $button .= '<button type="button" name="delete"  onclick="deleteDoctor('.$doctor['id'].')" id="'.$doctor['id'].'" class="btn mx-2 btn-danger" ><i class="fas fa-trash-alt"></i></button>';
 
                     return $button;
                 })
-                ->addColumn('is_baned' , function($doctors){
+                ->addColumn('is_baned' , function($doctor){
 
-                    if($doctors['is_baned']){
-                    $ban = '<button type="button" name="unban" value = "0" id = "unban" onclick="banDoctor('.$doctors['id'].')" id="'.$doctors['id'].'" class="btn mx-auto btn-success" >UnBan</button>';
+                    if($doctor['is_baned']){
+                    $ban = '<button type="button" name="unban" data-ban = '.$doctor['is_baned'].' id = "unban" onclick="banDoctor('.$doctor['id'].')" id="'.$doctor['id'].'" class="btn mx-auto btn-success" >UnBan</button>';
                     }else{
-                        $ban = '<button type="button" name="ban" id = "ban"  value = "1"  onclick="banDoctor('.$doctors['id'].')" id="'.$doctors['id'].'" class="btn mx-auto btn-danger" >Ban</button>';
+                        $ban = '<button type="button" name="ban" id = "ban"  data-ban = '.$doctor['is_baned'].'  onclick="banDoctor('.$doctor['id'].')" id="'.$doctor['id'].'" class="btn mx-auto btn-danger" >Ban</button>';
                     }
 
                     return $ban;
@@ -52,7 +53,7 @@ class DoctorController extends Controller
                 ->make(true);
         }
 
-        return view('doctor/index');
+        return view('doctor.index');
 
     }
 
@@ -148,12 +149,13 @@ class DoctorController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        $doctor = Doctor::find($id);
+        dd($request);
         if($request->ajax()){
-            
+            $doctor->is_baned=! $doctor->is_baned;
+            $doctor->save();
         }
 
-        $doctor = Doctor::find($id);
         $pharmacyName = $request->pharmacy_name;
         $pharmacy = Pharmacy::where ('name',$pharmacyName)->get('id');
         $pharmacyId = $pharmacy["0"]["id"];

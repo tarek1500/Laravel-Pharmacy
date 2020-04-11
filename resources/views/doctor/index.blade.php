@@ -71,7 +71,8 @@
                 },
                 {
                     data: 'pharmacy_id',
-                    name: 'pharmacy_id'
+                    name: 'pharmacy_id',
+                    orderable:false
                 },
                 {
                     data: 'is_baned',
@@ -96,21 +97,22 @@
 var doctor_id;
 
 
-
 function banDoctor(d_id){
     doctor_id = d_id;
+    // console.log(d_id);
     $('#ban').click(function(){
 
+        
     var state = $('#ban').val();
     
 
     $.ajax({
     url:"/dashboard/doctors/"+doctor_id,
-    method:'post',
-    data: {is_baned: state},
+    method:'PUT',
+    data: {state: true},
     dataType: 'json',
     headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('is_baned')
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
   },
   success:function(data)
   {
