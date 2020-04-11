@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
                 'gender'=>'male',
                 'mobile_number'=>"54345354345",
                 'avatar_img'=>'none',
-                'data_of_birth'=>'2018-11-12'
+                'date_of_birth'=>'2018-11-12'
             ]
             );
     }
