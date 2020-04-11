@@ -34,7 +34,7 @@ class DoctorController extends Controller
             // $data = Doctor::latest()->get();
             return DataTables::of($doctors)
                 ->addColumn('action' , function($doctor){
-                    $button = '<a type="button" name="edit" href=" /dashboard/doctor/'.$doctor['id'].'/edit" id="'.$doctor['id'].'" class="btn mx-2 btn-primary" ><i class="fas fa-edit"></i></a>';
+                    $button = '<a type="button" name="edit" href=" /dashboard/doctors/'.$doctor['id'].'/edit" id="'.$doctor['id'].'" class="btn mx-2 btn-primary" ><i class="fas fa-edit"></i></a>';
                     $button .= '<button type="button" name="delete"  onclick="deleteDoctor('.$doctor['id'].')" id="'.$doctor['id'].'" class="btn mx-2 btn-danger" ><i class="fas fa-trash-alt"></i></button>';
 
                     return $button;
@@ -83,10 +83,10 @@ class DoctorController extends Controller
         $pharmacyId = $pharmacy["0"]["id"];
 
         $this->validate($request , [
-            'name' => 'required|min:3|unique:doctors',
-            'email'=> 'required|unique:doctors',
+            'name' => 'required|min:3|unique:doctors,name',
+            'email'=> 'required|unique:doctors,email',
             'password' => 'required | min:6',
-            'national_id' => 'required | min:14 | max:14 | unique:doctors',
+            'national_id' => 'required | min:14 | max:14 | unique:doctors,national_id',
             'avatar_image' => 'required'
         ]);
 
