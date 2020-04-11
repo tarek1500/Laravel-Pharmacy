@@ -18,12 +18,12 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
 	Route::get('/', function () { return view('index'); })->name('index');
 
 	Route::group(["middleware"=>"role:admin"],function(){
+		Route::get('pharmacies/trash', 'PharmacyController@trash')->name('pharmacies.trash');
+		Route::get('pharmacies/{pharmacy}/restore', 'PharmacyController@restore')->name('pharmacies.restore');
 		Route::resource('pharmacies', 'PharmacyController');
 		Route::resource('users', 'UserController');
 		Route::resource('addresses', 'AddressController');
 		Route::resource('areas', 'AreaController');
-		Route::get('pharmacies/trash', 'PharmacyController@trash')->name('pharmacies.trash');
-		Route::get('pharmacies/{pharmacy}/restore', 'PharmacyController@restore')->name('pharmacies.restore');
 	});
 	Route::group(["middleware"=>"role:pharmacy"],function(){
 		Route::resource('doctors', 'DoctorController');

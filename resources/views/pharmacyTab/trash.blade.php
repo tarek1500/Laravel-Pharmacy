@@ -58,7 +58,7 @@ var pharmacy_id;
 function retrivePharmacy(p_id)
   {  pharmacy_id=p_id;
       $.ajax({
-      url:"dashboard/pharmacies/"+pharmacy_id+"/restore",
+      url:"/dashboard/pharmacies/"+pharmacy_id+"/restore",
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
