@@ -38,7 +38,7 @@ $(document).ready(function(){
                columns: [
                         { data: 'avatar_image', name: 'avatar_image' ,
                           render: function(data, type, full, meta){
-                           return "<img src=/images/pharmacy_avatar/" + data + " alt='avatar' height='42' width='42' />";}},
+                           return "<img src=" + data + " alt='avatar' height='42' width='42' />";}},
                         { data: 'name', name: 'name' },
                         { data: 'TotalOrders', name: 'TotalOrders' },
                         { data: 'TotalRevenue', name: 'TotalRevenue' },
