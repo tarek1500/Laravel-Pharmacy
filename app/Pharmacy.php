@@ -120,7 +120,7 @@ class Pharmacy extends Authenticatable implements MustVerifyEmail
         }
 
         else
-            $this->attributes['avatar_image']='public/avatars/default.jpeg';
+            $this->attributes['avatar_image']='public/images/avatars/default.jpg';
     }
 
     public function getAvatarImageAttribute(){

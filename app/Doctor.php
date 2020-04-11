@@ -109,7 +109,7 @@ class Doctor extends Authenticatable implements MustVerifyEmail
         }
 
         else
-            $this->attributes['avatar_image']='public/avatars/default.jpeg';
+            $this->attributes['avatar_image']='public/images/avatars/default.jpeg';
     }
 
     public function getAvatarImageAttribute(){
