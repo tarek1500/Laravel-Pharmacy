@@ -66,7 +66,6 @@ class PharmacyController extends Controller
         if(request()->hasFile('avatar_image')){
             $image = $request->file('avatar_image');
         }else{
-            return $request;
             $image=null;
         }
 
