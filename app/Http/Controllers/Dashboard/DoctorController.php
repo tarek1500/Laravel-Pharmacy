@@ -23,7 +23,7 @@ class DoctorController extends Controller
         $alldoctors=Doctor::all();
         if(Auth::guard('pharmacy')->check())
             $alldoctors=Auth::user()->doctors;
-        // dd($alldoctors);
+       
         $doctors = [];
         foreach($alldoctors as $doctor)
         {
@@ -150,10 +150,11 @@ class DoctorController extends Controller
     public function update(Request $request, $id)
     {
         $doctor = Doctor::find($id);
-        dd($request);
+
         if($request->ajax()){
-            $doctor->is_baned=! $doctor->is_baned;
+            $doctor->is_baned=$request->ban;;
             $doctor->save();
+            return ["success"=>"banned"];
         }
 
         $pharmacyName = $request->pharmacy_name;

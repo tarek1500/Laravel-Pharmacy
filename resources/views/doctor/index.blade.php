@@ -69,11 +69,13 @@
                     data: 'name',
                     name: 'name'
                 },
+                @role('admin')
                 {
                     data: 'pharmacy_id',
                     name: 'pharmacy_id',
                     orderable:false
                 },
+                @endrole
                 {
                     data: 'is_baned',
                     name: 'is_baned'
@@ -105,11 +107,10 @@ function banDoctor(d_id){
         
     var state = $('#ban').val();
     
-
     $.ajax({
     url:"/dashboard/doctors/"+doctor_id,
     method:'PUT',
-    data: {state: true},
+    data: {state: true , ban:1},
     dataType: 'json',
     headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -120,14 +121,24 @@ function banDoctor(d_id){
       $('#doctor_table').DataTable().ajax.reload();
   }
  })
+ })
 
-
-    })
-
-    $('#unban').click(function(){
-        console.log(doctor_id);
-    })
- }
+   $('#unban').click(function(){
+           $.ajax({
+    url:"/dashboard/doctors/"+doctor_id,
+    method:'PUT',
+    data: {state: true,ban:0},
+    dataType: 'json',
+    headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+  success:function(data)
+  {
+    console.log(data);
+      $('#doctor_table').DataTable().ajax.reload();
+  }
+   })
+   })}
 
 
 
